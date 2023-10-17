@@ -1,0 +1,66 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: beige;
+}
+
+h1 {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+main {
+	padding: 10px;
+	/* display: flex; */
+	/* flex-flow: column wrap; */
+	/* width: ; */
+	width: 38.5%;
+	background-color: red
+}
+
+#money {
+	display: flex;
+	gap: 20px
+}
+
+#cash {
+	flex: 1 1 auto
+}
+
+#expenses {
+	flex: 1 1 auto;
+	margin-top: 20px
+}
+
+#formProduct {
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 10px
+}
+
+.blank {
+	width: 60px;
+}
+
+#discounts {
+	width: 100%
+}
+
+#buttons {
+	display: flex;
+	width: 100%;
+	gap: 5px
+}
+
+#buttons input {
+	flex: 1 1 auto
+}

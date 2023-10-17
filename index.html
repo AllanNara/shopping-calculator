@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Tercera preentrega</title>
+		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<script src="./js/dom.js" type="module"></script>
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<li><h1>Controlador de compras</h1></li>
+				<li><a href="./pages/history.html">Historial de tickets</a></li>
+				<li><a href="./pages/last_canceled.html">Ultimo cancelado</a></li>
+				<li><a href="./pages/about.html">Sobre la app</a></li>
+			</ul>
+		</nav>
+		<br />
+
+		<main>
+			<section id="money">
+				<div id="cash">
+					<div>
+						<label for="initializedCash">Saldo inicial:</label>
+						<input type="checkbox" name="check" id="initializedCash" />
+					</div>
+					<div>
+						<input type="number" name="" id="availableCash" disabled/>
+						<div id="cashAvailable">Dinero disponible:</div>
+						<h2 id="currentCash"> $ ...</h2>
+					</div>
+				</div>
+				<div id="expenses">
+					<button>Mostrar carrito</button>
+					<button>Generar ticket final</button>
+					<div id="totalExpenses">Total gastos:</div>
+					<h2>$0</h2>
+				</div>
+				<!-- <div id="cart">Carrito:</div> -->
+			</section>
+			<br />
+			<hr />
+			<br />
+
+
+
+			<section id="product">
+				<form id="formProduct">
+					<div>
+						<label for="nameProd"><h4>Nuevo producto:</h4></label>
+						<input type="text" name="name" id="nameProd" />
+					</div>
+					<div>
+						<label for="category"><h4>Categoria:</h4></label>
+						<select name="category" id="category">
+							<option value="no-percederos">Alimentos no percederos</option>
+							<option value="frutas-verduras">Frutas y verduras</option>
+							<option value="carnes-huevos-lacteos">Carnes, huevos, lacteos</option>
+							<option value="cereales-legumbres">Cereales y legumbres</option>
+							<option value="dulces-gaseosas">Dulces, gaseosas</option>
+							<option value="cocina">Productos de cocina</option>
+							<option value="baño">Productos de baño</option>
+							<option value="otros">Otros</option>
+						</select>
+					</div>
+					<div>
+						<label for="price"><h4>Precio original:</h4></label>
+						<input type="number" name="name" id="price" />
+					</div>
+					<div>
+						<label for="quantity"><h4>Cantidad:</h4></label>
+						<input type="number" name="name" id="quantity" />
+					</div>
+
+
+					<div id="discounts">
+						<h4>Descuentos y promociones</h4>
+						<div>
+							<input type="checkbox" name="percentage" class="typeDiscount" id="0"/>
+							<span>
+								- Descuento de
+								<input class="blank percentage" type="number" id="discount0" /> %
+							</span>
+						</div>
+						<div>
+							<input type="checkbox" name="percentPerQ" class="typeDiscount" id="1" />
+							<span>
+								- Llevando
+								<input class="blank percentPerQ" type="number" id="condition1" /> o más,
+								tenes un
+								<input class="blank percentPerQ" type="number" id="discount1" /> % de
+								descuento en el producto
+							</span>
+						</div>
+						<div>
+							<input type="checkbox" name="inXUnity" class="typeDiscount" id="2" />
+							<span>
+								- Descuento de
+								<input class="blank inXUnity" type="number" id="discount2" /> % en la
+								<input class="blank inXUnity" type="number" id="condition2" /> unidad
+							</span>
+						</div>
+						<div>
+							<input type="checkbox" name="pricePerQ" class="typeDiscount" id="3" />
+							<span>
+								- Llevando
+								<input class="blank pricePerQ" type="number" id="condition3" /> o más,
+								cada unidad te sale
+								<input class="blank pricePerQ" type="number" id="discount3" />
+							</span>
+						</div>
+					</div>
+					<br />
+					<div id="buttons">
+						<input class="btnSend" type="submit" value="Añadir" />
+						<input type="reset" value="Limpiar" />
+					</div>
+				</form>
+			</section>
+		</main>
+
+		<footer></footer>
+	</body>
+</html>

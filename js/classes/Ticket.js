@@ -1,7 +1,6 @@
 import ProductInCart from "./ProductInCart.js";
 import UserSession from "./UserSession.js";
-
-let count = 0
+import Coupon from "./Coupon.js"
 
 export default class Ticket {
 	static ticketNumber = 0;
@@ -11,7 +10,7 @@ export default class Ticket {
 		this.cart = [];
 		this.subtotal = 0;
 		this.generalDiscount = 0;
-		this.coupons = []
+		this.coupons = [];
 		this.reduction = 0;
 		this.TOTAL = null;
 	}
@@ -20,33 +19,46 @@ export default class Ticket {
 		return {
 			number: this.number,
 			status: this.status,
-			cart: this.cart.map(prod => prod.current),
+			cart: this.cart.map((prod) => prod.current),
 			subtotal: this.subtotal,
 			generalDiscount: this.generalDiscount,
 			coupons: this.coupons,
 			reduction: this.reduction,
 			TOTAL: this.TOTAL,
-		}
+		};
 	}
 
 	addProductToCart = (product, discount, quantity) => {
 		const productToInsert = new ProductInCart({ ...product, ...discount, quantity });
 		this.cart.push(productToInsert);
 		this.subtotal = (this.subtotal + productToInsert.total).rounded();
-		console.dir({[++count]: this.current}, { depth: 100})
 	};
 
 	addGeneralDiscount = (discount) => {
 		this.generalDiscount = discount;
-		if(this.subtotal !== 0) {
+		if (this.subtotal !== 0) {
 			this.TOTAL = this.subtotal - (this.subtotal * disc) / 100;
 		}
+	};
+
+	addCoupon = ({discount, code}) => {
+		this.coupons.push(new Coupon(discount, code))
 	}
 
 	applyDiscountAndCoupons = () => {
-		if(this.coupon) this.TOTAL -= this.coupon;
-		this.TOTAL = this.subtotal (this.subtotal * this.generalDiscount) / 100
-	}
+		let final = 0
+		if (this.coupons.lenght) {
+			final = this.coupons.reduce((acc, curr) => {
+				if (!curr.applied) {
+					curr.aplied = true
+					return acc += curr.discount;
+				} else {
+					return acc
+				}
+			}, 0);
+		}
+		this.TOTAL = this.subtotal(this.subtotal * this.generalDiscount) / 100;
+	};
 
 	calculateTotalToPay = () => {
 		if (this.generalDiscount) {
@@ -76,7 +88,10 @@ export default class Ticket {
 			localStorage.setItem("lastCanceled", JSON.stringify(order));
 		}
 		const user = JSON.parse(sessionStorage.getItem("currentUser"));
-		sessionStorage.setItem("currentUser", JSON.stringify(new UserSession(true, user.availableCash)));
+		sessionStorage.setItem(
+			"currentUser",
+			JSON.stringify(new UserSession(true, user.availableCash))
+		);
 	};
 
 	generateOrder = (state) => {

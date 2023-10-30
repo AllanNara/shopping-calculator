@@ -10,7 +10,7 @@ export default class Ticket {
 		this.cart = [];
 		this.subtotal = 0;
 		this.generalDiscount = 0;
-		this.coupon = [];
+		this.coupon = [null];
 		this.reduction = 0;
 		this.TOTAL = null;
 	}
@@ -20,8 +20,8 @@ export default class Ticket {
 			store: this.store,
 			number: this.number,
 			status: this.status,
-			// cart: this.cart.map((prod) => prod.current),
-			cart: this.cart.length,
+			cart: this.cart.map((prod) => prod.current),
+			totalItemsCart: this.cart.length,
 			subtotal: this.subtotal,
 			generalDiscount: this.generalDiscount,
 			coupons: this.coupon,
@@ -30,63 +30,69 @@ export default class Ticket {
 		};
 	}
 
-	addProductToCart = ({product, discount, quantity}) => {
+	_addProductToCart = ({product, discount, quantity}) => {
 		if(this.status !== "pending") return null
 		const productToInsert = new ProductInCart({ ...product, ...discount, quantity });
 		this.cart.push(productToInsert);
 		this.subtotal = (this.subtotal + productToInsert.total).rounded();
 		if(this.generalDiscount) this._applyDiscountAndCoupons()
 		else this.TOTAL = this.subtotal
+		return true
 	};
 
-	addGeneralDiscount = (discount) => {
+	_addGeneralDiscount = (discount) => {
 		if(this.status !== "pending") return null
 		this.generalDiscount = discount;
-		if (this.subtotal !== 0) this._applyDiscountAndCoupons()
+		if (this.subtotal !== 0) {
+			this._applyDiscountAndCoupons()
+			return true
+		}
 	};
 
-	updateCoupon = ({discount, code}) => {
+	_updateCoupon = ({discount, code}) => {
 		if(this.status !== "pending") return null
-		this.coupon[0](new Coupon(discount, code))
+		if(discount === null) this.coupon[0] = null;
+		else this.coupon[0] = new Coupon(discount, code);
+		this._applyDiscountAndCoupons()
+		return true
 	}
 
 	_applyDiscountAndCoupons = () => {
 		if(this.status !== "pending") return null
 		this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
 		this.reduction = (this.TOTAL - this.subtotal).rounded();
-		if(this.coupon.length && !this.coupon[0]._applied) {
+		if(this.coupon[0] && !this.coupon[0]._applied) {
 			this.TOTAL -= this.coupon[0].discount;
 			this.reduction += this.coupon[0].discount
 			this.coupon[0]._applied = true
 		}
 	};
 
-	removeProductToCart = (idProd) => {
+	_removeProductToCart = (idProd) => {
 		if(this.status !== "pending") return null
 		if (!this.cart.length) return null;
 		if(!idProd) idProd = this.cart.length;
 		const indexCart = this.cart.findIndex((prod) => prod.id === idProd);
-		const idProductRemoved = this.cart[indexCart].id
+		const priceRemove = this.cart[indexCart].price
 		this.subtotal = (this.subtotal - this.cart[indexCart].total).rounded();
 		this.cart.splice(indexCart, 1);
 		this._applyDiscountAndCoupons()
-		return idProductRemoved
+		return priceRemove
 	};
 
-	closeTicket = (state, orders = []) => {
-		if(this.status !== "pending") return null
+	_closeTicket = (state, orders = []) => {
+		this.status = state ? "finished" : "canceled";
 		const order = this._generateOrder(state);
 		if (state) {
 			orders.push(order);
-			localStorage.setItem("orders", JSON.stringify(orders));
+			localStorage.setItem("orders", JS/ON.stringify(orders));
 		} else {
 			localStorage.setItem("lastCanceled", JSON.stringify(order));
 		}
-		return true
+		return order
 	};
 
-	_generateOrder = (state) => {
-		this.status = state ? "finished" : "canceled";
+	_generateOrder = () => {
 		const { store, number, status, ...rest } = this;
 		const ticket = {};
 		for (let key in rest) {

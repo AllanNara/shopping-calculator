@@ -1,5 +1,8 @@
 import ProductInCart from "../classes/ProductInCart.js";
-import mockProducts from "./utils/fake_cart.js";
+// import mockProducts from "./utils/fake_cart.js";
+
+import fs from "fs"
+const mockProducts = JSON.parse(await fs.promises.readFile("./js/testing/utils/fake_cart.json", "utf-8"))
 
 Number.prototype.rounded = function () {
 	return Number(this.toFixed(2));

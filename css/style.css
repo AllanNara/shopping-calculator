@@ -64,3 +64,12 @@ main {
 #buttons input {
 	flex: 1 1 auto
 }
+
+.errorMsg {
+	color: red;
+	background-color: black;
+	border-radius: 20px;
+	text-align: center;
+	padding: 3px 0;
+	margin-bottom: 5px
+}

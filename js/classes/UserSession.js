@@ -19,8 +19,8 @@ export default class UserSession {
 	}
 
 	addCash = (newCash) => {
-		this.initialCash += newCash;
-		this.availableCash += newCash;
+		this.initialCash = newCash;
+		this.availableCash = newCash;
 		if(!this._useCashFlag) this._changeUseCashFlag();
 		this._updateCash();
 	};
@@ -60,8 +60,8 @@ export default class UserSession {
 		if (!this._useCashFlag) return null
 		if((this.availableCash - this.currentOrder.TOTAL) < 0) {
 			while(this.availableCash < this.currentOrder.TOTAL) {
-				const next = console.log("¡Los gastos superan el dinero disponible!\n ¿Desea remover el ultimo producto?");
-				if(!next) {
+				const next = confirm("¡Los gastos superan el dinero disponible!\n ¿Desea remover el ultimo producto?");
+				if(next) {
 					this.currentOrder._removeProductToCart();
 				} else return false
 			}

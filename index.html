@@ -34,8 +34,10 @@
 				<div id="expenses">
 					<button>Mostrar carrito</button>
 					<button>Generar ticket final</button>
-					<div id="totalExpenses">Total gastos:</div>
-					<h2>$0</h2>
+					<div>
+						<p>Total gastos:</p>
+						<h2 id="totalExpenses">$0</h2>
+					</div>
 				</div>
 				<!-- <div id="cart">Carrito:</div> -->
 			</section>
@@ -46,6 +48,7 @@
 
 
 			<section id="product">
+				<h4></h4>
 				<form id="formProduct">
 					<div>
 						<label for="nameProd"><h4>Nuevo producto:</h4></label>
@@ -80,16 +83,16 @@
 							<input type="checkbox" name="percentage" class="typeDiscount" id="0"/>
 							<span>
 								- Descuento de
-								<input class="blank percentage" type="number" id="discount0" /> %
+								<input class="blank percentage" type="number" id="discount0" disabled /> %
 							</span>
 						</div>
 						<div>
 							<input type="checkbox" name="percentPerQ" class="typeDiscount" id="1" />
 							<span>
 								- Llevando
-								<input class="blank percentPerQ" type="number" id="condition1" /> o más,
+								<input class="blank percentPerQ" type="number" id="condition1" disabled /> o más,
 								tenes un
-								<input class="blank percentPerQ" type="number" id="discount1" /> % de
+								<input class="blank percentPerQ" type="number" id="discount1" disabled /> % de
 								descuento en el producto
 							</span>
 						</div>
@@ -97,17 +100,17 @@
 							<input type="checkbox" name="inXUnity" class="typeDiscount" id="2" />
 							<span>
 								- Descuento de
-								<input class="blank inXUnity" type="number" id="discount2" /> % en la
-								<input class="blank inXUnity" type="number" id="condition2" /> unidad
+								<input class="blank inXUnity" type="number" id="discount2" disabled /> % en la
+								<input class="blank inXUnity" type="number" id="condition2" disabled /> unidad
 							</span>
 						</div>
 						<div>
 							<input type="checkbox" name="pricePerQ" class="typeDiscount" id="3" />
 							<span>
 								- Llevando
-								<input class="blank pricePerQ" type="number" id="condition3" /> o más,
+								<input class="blank pricePerQ" type="number" id="condition3" disabled /> o más,
 								cada unidad te sale
-								<input class="blank pricePerQ" type="number" id="discount3" />
+								<input class="blank pricePerQ" type="number" id="discount3" disabled />
 							</span>
 						</div>
 					</div>

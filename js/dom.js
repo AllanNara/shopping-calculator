@@ -16,17 +16,26 @@ const useCash = document.getElementById("initializedCash");
 const inputCash = document.getElementById("availableCash");
 const currentCash = document.getElementById("currentCash");
 
+document.getElementById("testing").addEventListener("click", () => {
+	console.log(user.current)
+})
+
+document.addEventListener("DOMContentLoaded", (e) => {
+	useCash.checked = false
+	inputCash.setAttribute("disabled", "");
+})
+
+
 useCash.addEventListener("change", (e) => {
 	if (!e.target.checked) {
 		inputCash.setAttribute("disabled", "");
 		inputCash.value = null;
-		user._changeUseCashFlag();
 		currentCash.innerText = "$ ...";
 	} else {
 		inputCash.removeAttribute("disabled");
-		user._changeUseCashFlag();
-		currentCash.innerText = `$${user.availableCash}`;
+		currentCash.innerText = `$${user.availableCash.toLocaleString()}`;
 	}
+	user._changeUseCashFlag(e.target.checked);
 });
 
 inputCash.addEventListener("keydown", ({ key, target }) => {
@@ -40,7 +49,7 @@ inputCash.addEventListener("keydown", ({ key, target }) => {
 			);
 			if (confirmCash) {
 				user.addCash(cash);
-				currentCash.innerText = `$${user.initialCash}`;
+				currentCash.innerText = `$${user.availableCash.toLocaleString()}`;
 			}
 		}
 		target.value = null;
@@ -79,7 +88,7 @@ form.addEventListener("submit", (e) => {
 	typeDiscount = null;
 });
 
-form.addEventListener("keyup", (e) => {
+form.addEventListener("keyup", () => {
 	if (!existError) return;
 	const errorMsg = document.getElementById("product").firstElementChild;
 	errorMsg.removeAttribute("class");

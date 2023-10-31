@@ -22,38 +22,38 @@ export default class UserSession {
 		this.initialCash = newCash;
 		this.availableCash = newCash;
 		if(!this._useCashFlag) this._changeUseCashFlag();
-		this._updateCash();
+		return this._updateCash()
 	};
 
-  	_changeUseCashFlag = () => {
-		this._useCashFlag = !this._useCashFlag
-		this._updateCash();
-		return this._useCashFlag;
+  	_changeUseCashFlag = (change) => {
+		this._useCashFlag = change ?? !this._useCashFlag
+		if(this.initialCash) this._updateCash();
    }
 
    updateDiscountToOrder = (discount) => {
 		const changeDiscount = this.currentOrder._addGeneralDiscount(discount);
 		if(!changeDiscount) return null
 		this.availableCash = this.initialCash;
-		this._updateCash()
+		return this._updateCash()
    }
 
    addNewCoupon = (discount, code) => {
 		const couponAdded = this.currentOrder._updateCoupon({discount, code})
 		if(!couponAdded) return null
 		this.availableCash = this.initialCash;
-		this._updateCash()
+		return this._updateCash()
    }
 
    addProductToOrder = (product) => {
 		const productAdded = this.currentOrder._addProductToCart(product);
 		if(!productAdded) return null
-		this._updateCash()
+		return this._updateCash()
    }
 
    deleteProductToOrder = (idProd) => {
 		const productDeleted = this.currentOrder._removeProductToCart(idProd);
 		this.availableCash += productDeleted
+		return productDeleted
    }
 
 	_updateCash() {
@@ -61,9 +61,9 @@ export default class UserSession {
 		if((this.availableCash - this.currentOrder.TOTAL) < 0) {
 			while(this.availableCash < this.currentOrder.TOTAL) {
 				const next = confirm("¡Los gastos superan el dinero disponible!\n ¿Desea remover el ultimo producto?");
-				if(next) {
-					this.currentOrder._removeProductToCart();
-				} else return false
+				if(next) this.currentOrder._removeProductToCart();
+				this.availableCash = (this.initialCash - this.currentOrder.TOTAL).rounded();
+				return
 			}
 		} else {
 			this.availableCash = (this.initialCash - this.currentOrder.TOTAL).rounded();

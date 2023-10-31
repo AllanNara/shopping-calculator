@@ -85,7 +85,7 @@ export default class Ticket {
 		const order = this._generateOrder(state);
 		if (state) {
 			orders.push(order);
-			localStorage.setItem("orders", JS/ON.stringify(orders));
+			localStorage.setItem("orders", JSON.stringify(orders));
 		} else {
 			localStorage.setItem("lastCanceled", JSON.stringify(order));
 		}
@@ -113,6 +113,7 @@ export default class Ticket {
 		})
 		
 		const order = { number, status, ticket };
+		order.date = new Date().toLocaleString().split(",")[0];
 		return order;
 	};
 }

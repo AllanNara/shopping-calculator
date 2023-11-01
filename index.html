@@ -18,7 +18,8 @@
 		</nav>
 		<br />
 
-		<button disabled class="btn" id="testing" style="float: left; margin-left: 600px; padding: 10px">Producto Aleatorio</button>
+		<button class="btn" id="testing" style="float: left; margin-left: 600px; padding: 10px">Producto Aleatorio</button>
+		<button class="btn" id="other-test" style="float: left; margin-left: 900px; padding: 5px">other-test</button>
 
 		<main>
 			<section id="money">
@@ -34,8 +35,8 @@
 					</div>
 				</div>
 				<div id="expenses">
-					<button disabled class="btn">Mostrar carrito</button>
-					<button disabled class="btn">Generar ticket final</button>
+					<button class="btn">Mostrar carrito</button>
+					<button class="btn">Generar ticket final</button>
 					<div>
 						<p>Total gastos:</p>
 						<h2 id="totalExpenses">$0</h2>
@@ -71,11 +72,11 @@
 					</div>
 					<div>
 						<label for="price"><h4>Precio original:</h4></label>
-						<input type="number" name="name" id="price" step="0.01" />
+						<input type="number" name="name" id="price" step="0.01" min="0"/>
 					</div>
 					<div>
 						<label for="quantity"><h4>Cantidad:</h4></label>
-						<input type="number" name="name" id="quantity" />
+						<input type="number" name="name" id="quantity" min="0"/>
 					</div>
 
 
@@ -85,16 +86,16 @@
 							<input type="checkbox" name="percentage" class="typeDiscount" id="0"/>
 							<span>
 								- Descuento de
-								<input class="blank percentage" type="number" id="discount0" disabled /> %
+								<input min="0" class="blank percentage" type="number" id="discount0" disabled /> %
 							</span>
 						</div>
 						<div>
 							<input type="checkbox" name="percentPerQ" class="typeDiscount" id="1" />
 							<span>
 								- Llevando
-								<input class="blank percentPerQ" type="number" id="condition1" disabled /> o más,
+								<input min="0" class="blank percentPerQ" type="number" id="condition1" disabled /> o más,
 								tenes un
-								<input class="blank percentPerQ" type="number" id="discount1" disabled /> % de
+								<input min="0" class="blank percentPerQ" type="number" id="discount1" disabled /> % de
 								descuento en el producto
 							</span>
 						</div>
@@ -102,24 +103,24 @@
 							<input type="checkbox" name="inXUnity" class="typeDiscount" id="2" />
 							<span>
 								- Descuento de
-								<input class="blank inXUnity" type="number" id="discount2" disabled /> % en la
-								<input class="blank inXUnity" type="number" id="condition2" disabled /> unidad
+								<input min="0" class="blank inXUnity" type="number" id="discount2" disabled /> % en la
+								<input min="0" class="blank inXUnity" type="number" id="condition2" disabled /> unidad
 							</span>
 						</div>
 						<div>
 							<input type="checkbox" name="pricePerQ" class="typeDiscount" id="3" />
 							<span>
 								- Llevando
-								<input class="blank pricePerQ" type="number" id="condition3" disabled /> o más,
+								<input min="0" class="blank pricePerQ" type="number" id="condition3" disabled /> o más,
 								cada unidad te sale
-								<input class="blank pricePerQ" type="number" id="discount3" disabled />
-							</span>
+								<input min="0" class="blank pricePerQ" type="number" id="discount3" disabled />
+							</span>	
 						</div>
 					</div>
 					<br />
 					<div id="buttons">
-						<input disabled class="btn" class="btnSend" type="submit" value="Añadir" />
-						<input disabled class="btn" type="reset" value="Limpiar" id="cleanBtn"/>
+						<input class="btn" class="btnSend" type="submit" value="Añadir" />
+						<input class="btn" type="button" value="Limpiar" id="cleanBtn"/>
 					</div>
 				</form>
 			</section>

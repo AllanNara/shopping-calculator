@@ -71,8 +71,9 @@ export default class Ticket {
 	_removeProductToCart = (idProd) => {
 		if(this.status !== "pending") return null
 		if (!this.cart.length) return null;
-		if(!idProd) idProd = this.cart.length;
+		if(!idProd) idProd = this.cart[this.cart.length - 1].id;
 		const indexCart = this.cart.findIndex((prod) => prod.id === idProd);
+		console.log(indexCart)
 		const priceRemove = this.cart[indexCart].price
 		this.subtotal = (this.subtotal - this.cart[indexCart].total).rounded();
 		this.cart.splice(indexCart, 1);

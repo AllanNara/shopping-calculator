@@ -12,10 +12,10 @@ const categoryList = [
   "baño",
   "otros",
 ];
+const randomNum = (num) => Math.floor(Math.random() * num);
 
 export default function generateFakeProduct() {
 	disableDiscountFields({ reset: true });
-  const randomNum = (num) => Math.floor(Math.random() * num);
 	const randomDiscount = randomNum(discountList.length)
 	const randomCategory = randomNum(categoryList.length)
 	const { discount, product, quantity } = generateFakeCartProduct(null, discountList[randomDiscount], categoryList[randomCategory]);
@@ -24,6 +24,7 @@ export default function generateFakeProduct() {
 	document.getElementById("price").value = product.price;
 	document.getElementById("quantity").value = quantity;
 	generateFakeDiscount(discount, randomDiscount);
+	return randomDiscount.toString()
 }
 
 function generateFakeDiscount({ discountType, discount, discountCondition }, indexDiscount) {

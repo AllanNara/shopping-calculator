@@ -27,89 +27,93 @@ export function setDiscount(type) {
 	}
 
 	return discountSetting;
-};
-
-
-export function resetFields(type) {
-	document.getElementById("nameProd").value = "";
-	document.getElementById("category").value = "no-percederos";
-	document.getElementById("price").value = 0;
-	document.getElementById("quantity").value = 0;
-	switch(type) {
-		case "0":
-			document.getElementById("discount0").value = 0;
-		case "1":
-			document.getElementById("condition1").value = 0;
-			document.getElementById("discount1").value = 0;
-		case "2":
-			document.getElementById("condition2").value = 0;
-			document.getElementById("discount2").value = 0;
-		case "3":
-			document.getElementById("condition3").value = 0;
-			document.getElementById("discount3").value = 0;
-		default:
-			break;
-	}
-	disableDiscountFields()
 }
 
-
 export function enableDiscountsFields(type) {
-	disableDiscountFields()
-	switch(type) {
+	disableDiscountFields();
+	let discount, condition;
+	switch (type) {
 		case "0":
-			document.getElementById("discount0").removeAttribute("disabled");
-			break
-		case "1":
-			document.getElementById("condition1").removeAttribute("disabled");
-			document.getElementById("discount1").removeAttribute("disabled");
-			break
-		case "2":
-			document.getElementById("condition2").removeAttribute("disabled");
-			document.getElementById("discount2").removeAttribute("disabled");
-			break
-		case "3":
-			document.getElementById("condition3").removeAttribute("disabled");
-			document.getElementById("discount3").removeAttribute("disabled");
-			break
-		default:
+			discount = document.getElementById("discount0");
+			condition = null;
 			break;
+		case "1":
+			discount = document.getElementById("condition1");
+			condition = document.getElementById("discount1");
+			break;
+		case "2":
+			discount = document.getElementById("condition2");
+			condition = document.getElementById("discount2");
+			break;
+		case "3":
+			discount = document.getElementById("condition3");
+			condition = document.getElementById("discount3");
+			break;
+		default:
+			discount = null;
+			condition = null;
+			break;
+	}
+
+	if(discount) {
+		discount.removeAttribute("disabled");
+		discount.value = 1;
+	}
+
+	if(condition) {
+		condition.removeAttribute("disabled");
+		condition.value = 1;
 	}
 }
 
 export function disableDiscountFields(props) {
 	for (let i = 0; i < 4; i++) {
 		const discount = document.getElementById(`discount${i}`);
-		discount.setAttribute("disabled", "")
-		discount.value = 0
-		if(i !== 0) {
+		discount.setAttribute("disabled", "");
+		discount.value = null;
+		if (i !== 0) {
 			const condition = document.getElementById(`condition${i}`);
-			condition.setAttribute("disabled", "")
-			condition.value = 0
-		};
-		if(props && props.reset) {
-			document.getElementById(`${i}`).checked = false
-			document.getElementById(`${i}`).removeAttribute("disabled")
-		};		
+			condition.setAttribute("disabled", "");
+			condition.value = null;
+		}
+		if (props && props.reset) {
+			document.getElementById(`${i}`).checked = false;
+			document.getElementById(`${i}`).removeAttribute("disabled");
+		}
+	}
+}
+
+export function validateItem({ product, discount, quantity }) {
+	if (!product || !discount || !product.name.trim() || !product.category) {
+		throw new Error("Debe completar los campos con información");
+	}
+
+	const areNumbers = [product.price, quantity];
+
+	if (discount.discountType !== "none") areNumbers.push(discount.discount);
+	if (["percentPerQ", "inXUnity", "pricePerQ"].includes(discount.discountType)) {
+		areNumbers.push(discount.discountCondition);
+	}
+	for (let i = 0; i < areNumbers.length; i++) {
+		if (areNumbers[i] <= 0)
+			throw new Error("Precio, cantidad y descuentos deben ser mayores a 0");
+		if (typeof areNumbers[i] !== "number" || isNaN(areNumbers[i]))
+			throw new Error("Por favor, verifique que la información sea valida");
+		continue;
 	}
 }
 
 
-export function validateItem({ product, discount, quantity }) {
-	if(!product || !discount || !product.name.trim() || !product.category) {
-		throw new Error("Debe completar los campos con información")
-	} 
+export function removeError(existError) {
+	if (!existError) return;
+	const errorMsg = document.getElementById("product").firstElementChild;
+	errorMsg.removeAttribute("class");
+	errorMsg.innerText = "";
+}
 
-	const areNumbers = [product.price, quantity];
-	
-	if(discount.discountType !== "none") areNumbers.push(discount.discount);
-	if(["percentPerQ", "inXUnity", "pricePerQ"].includes(discount.discountType)) {
-		areNumbers.push(discount.discountCondition)
-	} 
-	for (let i = 0; i < areNumbers.length; i++) {
-		if(areNumbers[i] <= 0) throw new Error("Precio, cantidad y descuentos deben ser mayores a 0");
-		if(typeof areNumbers[i] !== "number" || isNaN(areNumbers[i])) throw new Error("Por favor, verifique que la información sea valida");
-		continue
-	}
-	
+
+export function resetForm(form, checkboxs) {
+	const existDiscount = checkboxs.find((element) => element.checked === true)
+	if(existDiscount) disableDiscountFields({ reset: true })
+	form.reset()
 }

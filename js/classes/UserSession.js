@@ -53,6 +53,7 @@ export default class UserSession {
    deleteProductToOrder = (idProd) => {
 		const productDeleted = this.currentOrder._removeProductToCart(idProd);
 		this.availableCash += productDeleted
+		this._updateCash()
 		return productDeleted
    }
 

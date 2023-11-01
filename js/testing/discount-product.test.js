@@ -1,8 +1,9 @@
 import fs from "fs"
 import path from "path"
-import { __dirname } from "./utils/index.js"
+import { fileURLToPath } from "url";
 import ProductInCart from "../classes/ProductInCart.js";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const mockProducts = JSON.parse(await fs.promises.readFile(path.join(__dirname, "/mocks/fake_cart.json"), "utf-8"))
 
 Number.prototype.rounded = function () {

@@ -1,7 +1,19 @@
+import storage from "../helpers/storage.js";
 import Ticket from "./Ticket.js";
 
 export default class UserSession {
+	static instance = null;
+
+	static getInstance() {
+		if (!UserSession.instance) {
+			const storedUser = storage("get", "local")("currentUser");
+			UserSession.instance = storedUser || new UserSession();
+		}
+		return UserSession.instance;
+	}
+
 	constructor() {
+		this.username = "user"
 		this._useCashFlag = false;
 		this.initialCash = 0;
 		this.availableCash = 0;

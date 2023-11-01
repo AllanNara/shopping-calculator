@@ -1,5 +1,6 @@
-import { generateFakeCartProduct } from "../testing/utils/createMockProduct.js";
-import { disableDiscountFields, enableDiscountsFields } from "./index.js";
+import { generateFakeCartProduct } from "./utils/createMockProduct.js";
+import { disableDiscountFields, enableDiscountsFields } from "../discountFields.js";
+import storage from "../storage.js";
 
 const discountList = ["percentage", "percentPerQ", "inXUnity", "pricePerQ", "none"];
 const categoryList = [
@@ -24,7 +25,7 @@ export default function generateFakeProduct() {
 	document.getElementById("price").value = product.price;
 	document.getElementById("quantity").value = quantity;
 	generateFakeDiscount(discount, randomDiscount);
-	return randomDiscount.toString()
+	storage("set", "session")("discount", randomDiscount.toString())
 }
 
 function generateFakeDiscount({ discountType, discount, discountCondition }, indexDiscount) {

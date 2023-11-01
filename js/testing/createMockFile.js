@@ -1,6 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
-import { __dirname } from "./index.js"
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default function createMockFile(cart) {
 	const normal = cart.filter((prod) => prod.discount.discountType === "none");

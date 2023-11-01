@@ -84,13 +84,9 @@ export default class Ticket {
 	_closeTicket = (state, orders = []) => {
 		this.status = state ? "finished" : "canceled";
 		const order = this._generateOrder(state);
-		if (state) {
-			orders.push(order);
-			localStorage.setItem("orders", JSON.stringify(orders));
-		} else {
-			localStorage.setItem("lastCanceled", JSON.stringify(order));
-		}
-		return order
+		if (!state) return order
+		orders.push(order);
+		return orders;
 	};
 
 	_generateOrder = () => {

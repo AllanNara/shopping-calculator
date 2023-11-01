@@ -38,7 +38,6 @@ main {
 }
 
 #formProduct {
-
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -57,13 +56,22 @@ main {
 
 #buttons {
 	display: flex;
+	flex-wrap: wrap;
 	width: 100%;
 	gap: 5px
 }
 
 #buttons input {
-	flex: 1 1 auto
+	flex: 1 1 auto;
 }
+
+#product button {
+	margin-top: 5px;
+	padding: 2px;
+	width: 100%;
+	font-weight: 600;
+}
+
 
 .errorMsg {
 	color: red;

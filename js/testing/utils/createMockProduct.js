@@ -1,9 +1,9 @@
-import { faker } from "@faker-js/faker";
+import { faker } from 'https://cdn.skypack.dev/@faker-js/faker';
 
-function generateFakeProduct() {
+function generateFakeProduct(category) {
 	return {
 		name: faker.commerce.productName(),
-		category: faker.commerce.department(),
+		category: category ?? faker.commerce.department(),
 		price: faker.number.float({ min: 10, max: 400, precision: 0.01 }),
 	};
 }
@@ -19,6 +19,15 @@ function generateFakeDiscount(dis = "none") {
 	return { discountType, discount, discountCondition };
 }
 
+export function generateFakeCartProduct(seed, dis, category) {
+	if(seed) faker.seed(seed)
+	return {
+		product: generateFakeProduct(category),
+		discount: generateFakeDiscount(dis),
+		quantity: faker.helpers.rangeToNumber({ min: 1, max: 50 }),
+	};
+}
+
 export function generateFakeArrayCartProducts(seed, dis, iterations = 1) {
 	if (isNaN(iterations) || iterations === 0) iterations = 1;
 	const products = [];
@@ -26,13 +35,4 @@ export function generateFakeArrayCartProducts(seed, dis, iterations = 1) {
 		products.push(generateFakeCartProduct(seed, dis));
 	}
 	return products;
-}
-
-export function generateFakeCartProduct(seed, dis) {
-	faker.seed(seed)
-	return {
-		product: generateFakeProduct(),
-		discount: generateFakeDiscount(dis),
-		quantity: faker.helpers.rangeToNumber({ min: 1, max: 50 }),
-	};
 }

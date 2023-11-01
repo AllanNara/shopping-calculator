@@ -77,15 +77,23 @@ export function enableDiscountsFields(type) {
 	}
 }
 
-export function disableDiscountFields() {
-	document.getElementById("discount0").setAttribute("disabled", "");
-	document.getElementById("condition1").setAttribute("disabled", "");
-	document.getElementById("discount1").setAttribute("disabled", "");
-	document.getElementById("condition2").setAttribute("disabled", "");
-	document.getElementById("discount2").setAttribute("disabled", "");
-	document.getElementById("condition3").setAttribute("disabled", "");
-	document.getElementById("discount3").setAttribute("disabled", "");
+export function disableDiscountFields(props) {
+	for (let i = 0; i < 4; i++) {
+		const discount = document.getElementById(`discount${i}`);
+		discount.setAttribute("disabled", "")
+		discount.value = 0
+		if(i !== 0) {
+			const condition = document.getElementById(`condition${i}`);
+			condition.setAttribute("disabled", "")
+			condition.value = 0
+		};
+		if(props && props.reset) {
+			document.getElementById(`${i}`).checked = false
+			document.getElementById(`${i}`).removeAttribute("disabled")
+		};		
+	}
 }
+
 
 export function validateItem({ product, discount, quantity }) {
 	if(!product || !discount || !product.name.trim() || !product.category) {
@@ -93,15 +101,15 @@ export function validateItem({ product, discount, quantity }) {
 	} 
 
 	const areNumbers = [product.price, quantity];
-	discount.discount && areNumbers.push(discount.discount)
-	discount.discountCondition && areNumbers.push(discount.discountCondition)
-
+	
+	if(discount.discountType !== "none") areNumbers.push(discount.discount);
+	if(["percentPerQ", "inXUnity", "pricePerQ"].includes(discount.discountType)) {
+		areNumbers.push(discount.discountCondition)
+	} 
 	for (let i = 0; i < areNumbers.length; i++) {
-		if(typeof areNumbers[i] === "number" && !isNaN(areNumbers[i])) continue
-		else throw new Error("Por favor, verifique que la información sea valida")
+		if(areNumbers[i] <= 0) throw new Error("Precio, cantidad y descuentos deben ser mayores a 0");
+		if(typeof areNumbers[i] !== "number" || isNaN(areNumbers[i])) throw new Error("Por favor, verifique que la información sea valida");
+		continue
 	}
 	
-	if(!product.price || !quantity) {
-		throw new Error("Precio y la cantidad deben ser mayores a 0")
-	}
 }

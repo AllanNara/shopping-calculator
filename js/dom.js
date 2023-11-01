@@ -6,6 +6,12 @@ import {
 	setDiscount,
 	validateItem,
 } from "./helpers/index.js";
+import generateFakeProduct from "./helpers/mocking.js";
+
+// const existDiscount = checkboxs.find((element) => element.checked === true)
+
+disableDiscountFields({ reset: true })
+
 
 let user = JSON.parse(sessionStorage.getItem("currentUser")) || new UserSession()
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -17,12 +23,17 @@ const inputCash = document.getElementById("availableCash");
 const currentCash = document.getElementById("currentCash");
 
 document.getElementById("testing").addEventListener("click", () => {
-	console.log(user.current)
+	generateFakeProduct()
 })
+
 
 document.addEventListener("DOMContentLoaded", (e) => {
 	useCash.checked = false
 	inputCash.setAttribute("disabled", "");
+	const buttons = Array.from(document.getElementsByClassName("btn"))
+	buttons.forEach(btn => {
+		btn.removeAttribute("disabled")
+	})	
 })
 
 
@@ -57,7 +68,6 @@ inputCash.addEventListener("keydown", ({ key, target }) => {
 });
 
 const form = document.getElementById("formProduct");
-const boxElements = document.getElementsByClassName("typeDiscount");
 const expenses = document.getElementById("totalExpenses");
 let existError = false;
 
@@ -76,7 +86,7 @@ form.addEventListener("submit", (e) => {
 	try {
 		validateItem(item);
 		user.addProductToOrder(item);
-		expenses.innerText = `$${user.currentOrder.TOTAL}`;
+		expenses.innerText = `$${user.currentOrder.TOTAL.toLocaleString()}`;
 		if (useCash.checked) currentCash.innerText = `$${user.availableCash}`;
 	} catch (error) {
 		existError = true;
@@ -95,25 +105,24 @@ form.addEventListener("keyup", () => {
 	errorMsg.innerText = "";
 });
 
-const checkboxs = Array.from(boxElements);
-
+const checkboxs = Array.from(document.getElementsByClassName("typeDiscount"));
 checkboxs.forEach((checkbox) => {
-	checkbox.checked = false;
 	checkbox.addEventListener("change", function ({ target }) {
 		if (target.checked) {
 			typeDiscount = target.id;
 			enableDiscountsFields(typeDiscount);
+			for (let i = 0; i < 4; i++) {
+				if(target.id === `${i}`) continue
+				document.getElementById(`${i}`).setAttribute("disabled", "")				
+			}
 		} else {
 			typeDiscount = null;
-			disableDiscountFields(typeDiscount);
+			disableDiscountFields({ reset: true });
 		}
-		checkboxs.forEach((box) => {
-			let getThisId = box.getAttribute("id");
-			if (target.checked && getThisId !== target.id) {
-				box.setAttribute("disabled", "");
-			} else {
-				box.removeAttribute("disabled");
-			}
-		});
 	});
 });
+
+document.getElementById("cleanBtn").addEventListener("click", (e) => {
+	const existDiscount = checkboxs.find((element) => element.checked === true)
+	if(existDiscount) disableDiscountFields({ reset: true })
+})

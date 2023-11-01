@@ -18,7 +18,7 @@
 		</nav>
 		<br />
 
-		<button id="testing" style="float: left; margin-left: 600px; padding: 10px">presioname</button>
+		<button disabled class="btn" id="testing" style="float: left; margin-left: 600px; padding: 10px">Producto Aleatorio</button>
 
 		<main>
 			<section id="money">
@@ -34,8 +34,8 @@
 					</div>
 				</div>
 				<div id="expenses">
-					<button>Mostrar carrito</button>
-					<button>Generar ticket final</button>
+					<button disabled class="btn">Mostrar carrito</button>
+					<button disabled class="btn">Generar ticket final</button>
 					<div>
 						<p>Total gastos:</p>
 						<h2 id="totalExpenses">$0</h2>
@@ -71,7 +71,7 @@
 					</div>
 					<div>
 						<label for="price"><h4>Precio original:</h4></label>
-						<input type="number" name="name" id="price" />
+						<input type="number" name="name" id="price" step="0.01" />
 					</div>
 					<div>
 						<label for="quantity"><h4>Cantidad:</h4></label>
@@ -118,8 +118,8 @@
 					</div>
 					<br />
 					<div id="buttons">
-						<input class="btnSend" type="submit" value="Añadir" />
-						<input type="reset" value="Limpiar" />
+						<input disabled class="btn" class="btnSend" type="submit" value="Añadir" />
+						<input disabled class="btn" type="reset" value="Limpiar" id="cleanBtn"/>
 					</div>
 				</form>
 			</section>

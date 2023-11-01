@@ -58,8 +58,8 @@ export default class UserSession {
 
 	_updateCash() {
 		if (!this._useCashFlag) return null
-		if((this.availableCash - this.currentOrder.TOTAL) < 0) {
-			while(this.availableCash < this.currentOrder.TOTAL) {
+		if((this.initialCash - this.currentOrder.TOTAL) < 0) {
+			while(this.initialCash < this.currentOrder.TOTAL) {
 				const next = confirm("¡Los gastos superan el dinero disponible!\n ¿Desea remover el ultimo producto?");
 				if(next) this.currentOrder._removeProductToCart();
 				this.availableCash = (this.initialCash - this.currentOrder.TOTAL).rounded();

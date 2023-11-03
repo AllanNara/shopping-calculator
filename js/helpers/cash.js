@@ -1,11 +1,9 @@
 import UserSession from "../classes/UserSession.js";
 
-const useCash = document.getElementById("initializedCash");
-const inputCash = document.getElementById("availableCash");
-const [ flag, user ] = UserSession.getInstance()
-
-useCash.addEventListener("change", (e) => {
-	const currentCash = document.getElementById("currentCash");
+export function useCash(e) {
+	const user = UserSession.getInstance()[1];
+	const inputCash = document.getElementById("input-cash");
+	const currentCash = document.getElementById("current-cash");
 	if (!e.target.checked) {
 		inputCash.setAttribute("disabled", "");
 		inputCash.value = null;
@@ -16,24 +14,23 @@ useCash.addEventListener("change", (e) => {
 		currentCash.innerText = `$${user.availableCash}`;
 	}
 	user._changeUseCashFlag(e.target.checked);
-});
+}
 
-inputCash.addEventListener("keydown", ({ key, target }) => {
-	const currentCash = document.getElementById("currentCash");
+export function insertCash({ key, target }) {
+	const user = UserSession.getInstance()[1];
+	const currentCash = document.getElementById("current-cash");
 	if (key === "Enter") {
 		const cash = Number(target.value);
 		if (isNaN(cash) || !cash) {
 			alert("Valor invalido");
 		} else {
 			const confirmCash = confirm(
-				`Tu saldo inicial es de ${target.value}, ¿Es correcto?`
+				`Tu saldo inicial es de ${cash.toLocaleString()}, ¿Es correcto?`
 			);
 			if (confirmCash) {
 				user.addCash(cash);
 				currentCash.innerText = `$${user.availableCash}`;
 			}
 		}
-		// target.value = 0;
 	}
-});
-
+}

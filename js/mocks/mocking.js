@@ -1,6 +1,7 @@
 import { generateFakeCartProduct } from "./utils/createMockProduct.js";
-import { disableDiscountFields, enableDiscountsFields } from "../discountFields.js";
-import storage from "../storage.js";
+import { removeError } from "../helpers/errors.js";
+import { disableDiscountFields, enableDiscountsFields } from "../helpers/discountFields.js";
+import storage from "../helpers/storage.js";
 
 const discountList = ["percentage", "percentPerQ", "inXUnity", "pricePerQ", "none"];
 const categoryList = [
@@ -16,11 +17,12 @@ const categoryList = [
 const randomNum = (num) => Math.floor(Math.random() * num);
 
 export default function generateFakeProduct() {
+	removeError()
 	disableDiscountFields({ reset: true });
 	const randomDiscount = randomNum(discountList.length)
 	const randomCategory = randomNum(categoryList.length)
 	const { discount, product, quantity } = generateFakeCartProduct(null, discountList[randomDiscount], categoryList[randomCategory]);
-	document.getElementById("nameProd").value = product.name;
+	document.getElementById("product-name").value = product.name;
 	document.getElementById("category").value = product.category;
 	document.getElementById("price").value = product.price;
 	document.getElementById("quantity").value = quantity;

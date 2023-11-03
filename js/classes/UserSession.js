@@ -3,16 +3,15 @@ import Ticket from "./Ticket.js";
 
 export default class UserSession {
 	static instance = null;
-	static count = 0
+	static isFromStorage = false;
 
 	static getInstance() {
-		UserSession.count++
 		if (!UserSession.instance) {
 			const storedUser = storage("get", "local")("userData");
+			UserSession.isFromStorage = Boolean(storedUser)
 			UserSession.instance = new UserSession(storedUser);
-			return [Boolean(storedUser), UserSession.instance];
 		}
-		return [false, UserSession.instance];
+		return [UserSession.isFromStorage, UserSession.instance];
 	}
 
 	constructor(data) {
@@ -92,6 +91,7 @@ export default class UserSession {
 	}
 
 	closeOrder(state = true) {
+		if(!state) this._availableCash = this._initialCash
 		const result = this._currentOrder._closeTicket(state);
 		this._currentOrder = new Ticket();
 		return result;

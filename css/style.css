@@ -37,7 +37,7 @@ main {
 	margin-top: 20px
 }
 
-#formProduct {
+#form-product {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;

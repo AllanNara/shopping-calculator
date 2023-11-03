@@ -4,14 +4,15 @@ import { removeError } from "./errors.js";
 export default function cleanAll() {
 	removeError()
 	disableDiscountFields({ reset: true })
-	document.getElementById("formProduct").reset()
-	document.getElementById("initializedCash").checked = false
-	document.getElementById("availableCash").value = null;
-	document.getElementById("availableCash").setAttribute("disabled", "");
+	document.getElementById("form-product").reset()
+	document.getElementById("use-cash").checked = false
+	document.getElementById("input-cash").value = null;
+	document.getElementById("input-cash").setAttribute("disabled", "");
 }
 
-export function resetForm(form, checkboxs) {
-	const existDiscount = checkboxs.find((element) => element.checked === true)
-	if(existDiscount) disableDiscountFields({ reset: true })
-	form.reset()
+export function resetForm() {
+	const checkboxs = Array.from(document.getElementsByClassName("typeDiscount"));
+	const existDiscount = checkboxs.find((element) => element.checked === true);
+	if(existDiscount) disableDiscountFields({ reset: true });
+	document.getElementById("form-product").reset();
 }

@@ -1,7 +1,30 @@
+import UserSession from "../classes/UserSession.js";
+import { removeError, sendError } from "./errors.js";
+import { resetForm } from "./reset.js";
 import storage from "./storage.js";
 
-export default function generateProduct() {
-	let name = document.getElementById("nameProd").value;
+export default function addProduct(e) {
+	e.preventDefault();
+	const user = UserSession.getInstance()[1];
+
+  const useCash = document.getElementById("use-cash");
+	const currentCash = document.getElementById("current-cash");
+	const expenses = document.getElementById("total-expenses");
+	try {
+		removeError()
+		const item = generateProduct()
+		user.addProductToOrder(item);
+		expenses.innerText = `$${user.toPay}`;
+		if (useCash.checked) currentCash.innerText = `$${user.availableCash}`;
+		resetForm()
+	} catch (error) {
+		console.log(error)
+		sendError(error)
+	}
+}
+
+function generateProduct() {
+	let name = document.getElementById("product-name").value;
 	let category = document.getElementById("category").value;
 	let price = Number(document.getElementById("price").value);
 
@@ -12,7 +35,7 @@ export default function generateProduct() {
 	return validateItem({ product, discount, quantity });
 }
 
-export function setDiscount() {
+function setDiscount() {
 	const type = storage("get", "session")("discount")
 	let discountSetting = {};
 	switch (type) {
@@ -44,7 +67,7 @@ export function setDiscount() {
 	return discountSetting;
 }
 
-export function validateItem({ product, discount, quantity }) {
+function validateItem({ product, discount, quantity }) {
 	if (!product || !discount || !product.name.trim() || !product.category) {
 		throw new Error("Debe completar los campos con información");
 	}

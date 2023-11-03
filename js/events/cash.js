@@ -2,8 +2,7 @@ import UserSession from "../classes/UserSession.js";
 
 const useCash = document.getElementById("initializedCash");
 const inputCash = document.getElementById("availableCash");
-
-const user = UserSession.getInstance()
+const [ flag, user ] = UserSession.getInstance()
 
 useCash.addEventListener("change", (e) => {
 	const currentCash = document.getElementById("currentCash");
@@ -13,7 +12,8 @@ useCash.addEventListener("change", (e) => {
 		currentCash.innerText = "$ ...";
 	} else {
 		inputCash.removeAttribute("disabled");
-		currentCash.innerText = `$${user.availableCash.toLocaleString()}`;
+		inputCash.value = 0;
+		currentCash.innerText = `$${user.availableCash}`;
 	}
 	user._changeUseCashFlag(e.target.checked);
 });
@@ -30,10 +30,10 @@ inputCash.addEventListener("keydown", ({ key, target }) => {
 			);
 			if (confirmCash) {
 				user.addCash(cash);
-				currentCash.innerText = `$${user.availableCash.toLocaleString()}`;
+				currentCash.innerText = `$${user.availableCash}`;
 			}
 		}
-		target.value = null;
+		// target.value = 0;
 	}
 });
 

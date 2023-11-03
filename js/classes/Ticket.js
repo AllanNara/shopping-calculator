@@ -3,16 +3,26 @@ import Coupon from "./Coupon.js"
 
 export default class Ticket {
 	static ticketNumber = 100;
-	constructor(store = null) {
-		this.store = store
-		this.number = ++Ticket.ticketNumber;
+	constructor(data) {
 		this.status = "pending";
-		this.cart = [];
-		this.subtotal = 0;
-		this.generalDiscount = 0;
-		this.coupon = [null];
 		this.reduction = 0;
 		this.TOTAL = null;
+		if(data) {
+			this.store = data.store 
+			this.number = data.number 
+			this.cart = data.cart;
+			this.subtotal = data.cart.reduce(((acc, curr) => acc + curr.total), 0);
+			this.generalDiscount = data.generalDiscount;
+			this.coupon = data.coupon;
+			this._applyDiscountAndCoupons()
+		} else {
+			this.store = "store";
+			this.number = ++Ticket.ticketNumber;
+			this.cart = []
+			this.subtotal = 0;
+			this.generalDiscount = 0;
+			this.coupon = [null];
+		}
 	}
 
 	get current() {
@@ -35,8 +45,7 @@ export default class Ticket {
 		const productToInsert = new ProductInCart({ ...product, ...discount, quantity });
 		this.cart.push(productToInsert);
 		this.subtotal = (this.subtotal + productToInsert.total).rounded();
-		if(this.generalDiscount) this._applyDiscountAndCoupons()
-		else this.TOTAL = this.subtotal
+		this._applyDiscountAndCoupons();
 		return true
 	};
 
@@ -59,6 +68,7 @@ export default class Ticket {
 
 	_applyDiscountAndCoupons = () => {
 		if(this.status !== "pending") return null
+		if(!this.generalDiscount) this.TOTAL = this.subtotal
 		this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
 		this.reduction = (this.TOTAL - this.subtotal).rounded();
 		if(this.coupon[0] && !this.coupon[0]._applied) {
@@ -73,7 +83,6 @@ export default class Ticket {
 		if (!this.cart.length) return null;
 		if(!idProd) idProd = this.cart[this.cart.length - 1].id;
 		const indexCart = this.cart.findIndex((prod) => prod.id === idProd);
-		console.log(indexCart)
 		const priceRemove = this.cart[indexCart].price
 		this.subtotal = (this.subtotal - this.cart[indexCart].total).rounded();
 		this.cart.splice(indexCart, 1);

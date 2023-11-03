@@ -4,7 +4,7 @@ import { removeError, sendError } from "../helpers/errors.js";
 import generateProduct from "../helpers/generateProduct.js";
 import { resetForm } from "../helpers/reset.js";
 
-const user = UserSession.getInstance();
+const [ flag, user ] = UserSession.getInstance()
 const form = document.getElementById("formProduct");
 const checkboxs = Array.from(document.getElementsByClassName("typeDiscount"));
 
@@ -17,7 +17,7 @@ form.addEventListener("submit", (e) => {
 		removeError()
 		const item = generateProduct()
 		user.addProductToOrder(item);
-		expenses.innerText = `$${user.currentOrder.TOTAL.toLocaleString()}`;
+		expenses.innerText = `$${user.toPay}`;
 		if (useCash.checked) currentCash.innerText = `$${user.availableCash}`;
 		resetForm(form, checkboxs)
 	} catch (error) {

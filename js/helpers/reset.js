@@ -6,6 +6,7 @@ export default function cleanAll() {
 	disableDiscountFields({ reset: true })
 	document.getElementById("formProduct").reset()
 	document.getElementById("initializedCash").checked = false
+	document.getElementById("availableCash").value = null;
 	document.getElementById("availableCash").setAttribute("disabled", "");
 }
 

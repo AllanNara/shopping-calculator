@@ -24,12 +24,12 @@ export default function generateFakeProduct() {
 	document.getElementById("category").value = product.category;
 	document.getElementById("price").value = product.price;
 	document.getElementById("quantity").value = quantity;
-	generateFakeDiscount(discount, randomDiscount);
-	storage("set", "session")("discount", randomDiscount.toString())
+	storage("save", "session")("discount", randomDiscount.toString())
+	generateFakeDiscount(discount);
 }
 
-function generateFakeDiscount({ discountType, discount, discountCondition }, indexDiscount) {
-  enableDiscountsFields(indexDiscount.toString());
+function generateFakeDiscount({ discountType, discount, discountCondition }) {
+  enableDiscountsFields();
   switch (discountType) {
     case "percentage":
 			document.getElementById("0").checked = true;

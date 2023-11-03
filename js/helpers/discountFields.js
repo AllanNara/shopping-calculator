@@ -13,7 +13,7 @@ export function disableDiscountFields(props) {
 		if (props && props.reset) {
 			document.getElementById(`${i}`).checked = false;
 			document.getElementById(`${i}`).removeAttribute("disabled");
-			storage("set", "session")("discount", null)
+			storage("save", "session")("discount", null)
 		}
 	}
 }
@@ -58,7 +58,7 @@ export function enableDiscountsFields() {
 
 export default function discountChanged({ target }) {
 	if (target.checked) {
-		storage("set", "session")("discount", target.id)
+		storage("save", "session")("discount", target.id)
 		enableDiscountsFields();
 		for (let i = 0; i < 4; i++) {
 			if(target.id === `${i}`) continue

@@ -14,7 +14,7 @@ export default class Ticket {
 			this.subtotal = data.cart.reduce(((acc, curr) => acc + curr.total), 0);
 			this.generalDiscount = data.generalDiscount;
 			this.coupon = data.coupon;
-			this._applyDiscountAndCoupons()
+			this._solveTotal()
 		} else {
 			this.store = "store";
 			this.number = ++Ticket.ticketNumber;
@@ -45,7 +45,7 @@ export default class Ticket {
 		const productToInsert = new ProductInCart({ ...product, ...discount, quantity });
 		this.cart.push(productToInsert);
 		this.subtotal = (this.subtotal + productToInsert.total).rounded();
-		this._applyDiscountAndCoupons();
+		this._solveTotal();
 		return true
 	};
 
@@ -53,7 +53,7 @@ export default class Ticket {
 		if(this.status !== "pending") return null
 		this.generalDiscount = discount;
 		if (this.subtotal !== 0) {
-			this._applyDiscountAndCoupons()
+			this._solveTotal()
 			return true
 		}
 	};
@@ -62,11 +62,11 @@ export default class Ticket {
 		if(this.status !== "pending") return null
 		if(discount === null) this.coupon[0] = null;
 		else this.coupon[0] = new Coupon(discount, code);
-		this._applyDiscountAndCoupons()
+		this._solveTotal()
 		return true
 	}
 
-	_applyDiscountAndCoupons = () => {
+	_solveTotal = () => {
 		if(this.status !== "pending") return null
 		if(!this.generalDiscount) this.TOTAL = this.subtotal
 		this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
@@ -86,7 +86,7 @@ export default class Ticket {
 		const priceRemove = this.cart[indexCart].price
 		this.subtotal = (this.subtotal - this.cart[indexCart].total).rounded();
 		this.cart.splice(indexCart, 1);
-		this._applyDiscountAndCoupons()
+		this._solveTotal()
 		return priceRemove
 	};
 

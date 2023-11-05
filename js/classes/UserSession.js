@@ -8,7 +8,7 @@ export default class UserSession {
 	static getInstance() {
 		if (!UserSession.instance) {
 			const storedUser = storage("get", "local")("userData");
-			UserSession.isFromStorage = Boolean(storedUser)
+			UserSession.isFromStorage = Boolean(storedUser);
 			UserSession.instance = new UserSession(storedUser);
 		}
 		return [UserSession.isFromStorage, UserSession.instance];
@@ -23,33 +23,38 @@ export default class UserSession {
 	}
 
 	get toPay() {
-		return this._currentOrder.TOTAL.toLocaleString()
+		return this._currentOrder.TOTAL.toLocaleString();
 	}
 
 	get availableCash() {
-		return this._availableCash.toLocaleString()
+		return this._availableCash.toLocaleString();
 	}
 
 	get order() {
-		return this._currentOrder.current
+		return this._currentOrder.current;
 	}
 
 	addCash = (newCash) => {
-		this._initialCash = newCash;
-		this._availableCash = newCash;
-		if (!this._useCashFlag) this._changeUseCashFlag();
+		this._availableCash = this._initialCash = newCash;
+		if (!this._useCashFlag) this._changeUseCashFlag(true);
 		return this._updateCash();
 	};
 
-	_changeUseCashFlag = (change) => {
-		this._useCashFlag = change ?? !this._useCashFlag;
-		if (this._initialCash) this._updateCash();
+	_changeUseCashFlag = (change) => {	
+		let changeTo = !this._useCashFlag
+		if(!change || !changeTo) {
+			this._useCashFlag = false;
+			this._availableCash = this._initialCash = 0
+		} else if(change || changeTo) {
+			this._useCashFlag = true;
+			this._updateCash();
+		}
+		return this._useCashFlag
 	};
 
 	updateDiscountToOrder = (discount) => {
 		const changeDiscount = this._currentOrder._addGeneralDiscount(discount);
 		if (!changeDiscount) return null;
-		this._availableCash = this._initialCash;
 		return this._updateCash();
 	};
 
@@ -69,29 +74,23 @@ export default class UserSession {
 	deleteProductToOrder = (idProd) => {
 		const productDeleted = this._currentOrder._removeProductToCart(idProd);
 		this._availableCash += productDeleted;
-		this._updateCash();
-		return productDeleted;
+		return this._updateCash();;
 	};
 
 	_updateCash() {
 		if (!this._useCashFlag) return null;
-		if (this._initialCash - this._currentOrder.TOTAL < 0) {
-			while (this._initialCash < this._currentOrder.TOTAL) {
-				const next = confirm(
-					"¡Los gastos superan el dinero disponible!\n ¿Desea remover el ultimo producto?"
-				);
-				if (next) this._currentOrder._removeProductToCart();
-				this._availableCash = (this._initialCash - this._currentOrder.TOTAL).rounded();
-				return;
-			}
-		} else {
-			this._availableCash = (this._initialCash - this._currentOrder.TOTAL).rounded();
-			return true;
+		this._availableCash = (this._initialCash - this._currentOrder.TOTAL).rounded();
+		if (this._availableCash < 0 && this._initialCash) {
+			const next = confirm(
+				"¡Los gastos superan el dinero disponible!\n ¿Esta seguro que desea proseguir con su saldo inicial? \n"
+			);
+			if (!next) return this._changeUseCashFlag(false);
 		}
+		return true;
 	}
 
 	closeOrder(state = true) {
-		if(!state) this._availableCash = this._initialCash
+		if (!state) this._availableCash = this._initialCash;
 		const result = this._currentOrder._closeTicket(state);
 		this._currentOrder = new Ticket();
 		return result;

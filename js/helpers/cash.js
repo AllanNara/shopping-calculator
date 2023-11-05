@@ -1,10 +1,21 @@
 import UserSession from "../classes/UserSession.js";
 
-export function useCash(e) {
+export function useCash(arg) {
+	let checked = arg.constructor.name !== "Event" ? arg : arg.target.checked;
 	const user = UserSession.getInstance()[1];
 	const inputCash = document.getElementById("input-cash");
 	const currentCash = document.getElementById("current-cash");
-	if (!e.target.checked) {
+	if (!checked) {
+		if(arg.constructor.name !== "Event") {
+			document.getElementById("use-cash").checked = false
+		} 
+		if(user._initialCash) {
+			const next = confirm("¿Esta seguro que desea retirar su saldo inicial?")
+			if(!next) {
+				document.getElementById("use-cash").checked = true;
+				return
+			}
+		}
 		inputCash.setAttribute("disabled", "");
 		inputCash.value = null;
 		currentCash.innerText = "$ ...";
@@ -13,7 +24,7 @@ export function useCash(e) {
 		inputCash.value = 0;
 		currentCash.innerText = `$${user.availableCash}`;
 	}
-	user._changeUseCashFlag(e.target.checked);
+	user._changeUseCashFlag(checked);
 }
 
 export function insertCash({ key, target }) {
@@ -28,8 +39,10 @@ export function insertCash({ key, target }) {
 				`Tu saldo inicial es de ${cash.toLocaleString()}, ¿Es correcto?`
 			);
 			if (confirmCash) {
-				user.addCash(cash);
-				currentCash.innerText = `$${user.availableCash}`;
+				const balanceIsPositive = user.addCash(cash);
+				console.log({balanceIsPositive});
+				if(!balanceIsPositive) useCash(false);
+				else currentCash.innerText = `$${user.availableCash}`;
 			}
 		}
 	}

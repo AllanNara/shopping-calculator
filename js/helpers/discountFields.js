@@ -56,16 +56,3 @@ export function enableDiscountsFields() {
 	}
 }
 
-export default function discountChanged({ target }) {
-	if (target.checked) {
-		storage("save", "session")("discount", target.id)
-		enableDiscountsFields();
-		for (let i = 0; i < 4; i++) {
-			if(target.id === `${i}`) continue
-			document.getElementById(`${i}`).setAttribute("disabled", "")
-		}
-	} else {
-		disableDiscountFields({ reset: true });
-	}
-}
-

@@ -1,6 +1,4 @@
-import discountChanged from "../helpers/discountFields.js";
-import addProduct from "../helpers/product.js";
-import { resetForm } from "../helpers/reset.js";
+import { resetForm, discountChanged, addProduct } from "./function/form.js";
 
 const checkboxs = Array.from(document.getElementsByClassName("typeDiscount"));
 const form = document.getElementById("form-product");

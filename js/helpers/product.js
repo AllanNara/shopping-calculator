@@ -1,31 +1,6 @@
-import UserSession from "../classes/UserSession.js";
-import { useCash } from "./cash.js";
-import { removeError, sendError } from "./errors.js";
-import { resetForm } from "./reset.js";
 import storage from "./storage.js";
 
-export default function addProduct(e) {
-	e.preventDefault();
-	const user = UserSession.getInstance()[1];
-
-  const checkboxUseCash = document.getElementById("use-cash");
-	const currentCash = document.getElementById("current-cash");
-	const expenses = document.getElementById("total-expenses");
-	try {
-		removeError()
-		const item = generateProduct()
-		const balanceIsPositive = user.addProductToOrder(item);
-		expenses.innerText = `$${user.toPay}`;
-		if (checkboxUseCash.checked && user._initialCash) currentCash.innerText = `$${user.availableCash}`;
-		if(!balanceIsPositive) useCash(false)
-		resetForm()
-	} catch (error) {
-		console.log(error)
-		sendError(error)
-	}
-}
-
-function generateProduct() {
+export function generateProduct() {
 	let name = document.getElementById("product-name").value;
 	let category = document.getElementById("category").value;
 	let price = Number(document.getElementById("price").value);

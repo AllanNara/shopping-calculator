@@ -1,4 +1,4 @@
-import UserSession from "../classes/UserSession.js";
+import UserSession from "../../classes/UserSession.js";
 
 export function useCash(arg) {
 	let checked = arg.constructor.name !== "Event" ? arg : arg.target.checked;
@@ -39,9 +39,8 @@ export function insertCash({ key, target }) {
 				`Tu saldo inicial es de ${cash.toLocaleString()}, ¿Es correcto?`
 			);
 			if (confirmCash) {
-				const balanceIsPositive = user.addCash(cash);
-				console.log({balanceIsPositive});
-				if(!balanceIsPositive) useCash(false);
+				const balance = user.addCash(cash);
+				if(!balance) useCash(false);
 				else currentCash.innerText = `$${user.availableCash}`;
 			}
 		}

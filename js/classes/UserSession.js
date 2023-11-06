@@ -53,16 +53,22 @@ export default class UserSession {
 	};
 
 	updateDiscountToOrder = (discount) => {
+		discount = Number(discount)
 		const changeDiscount = this._currentOrder._addGeneralDiscount(discount);
 		if (!changeDiscount) return null;
-		return this._updateCash();
+		if(this._useCashFlag) return this._updateCash();
+		return true
+
 	};
 
-	addNewCoupon = (discount, code) => {
+	updateCoupon = (discount, code) => {
+		discount = discount ? Number(discount) : null
 		const couponAdded = this._currentOrder._updateCoupon({ discount, code });
 		if (!couponAdded) return null;
 		this._availableCash = this._initialCash;
-		return this._updateCash();
+	
+		if(this._useCashFlag) return this._updateCash();
+		return true
 	};
 
 	addProductToOrder = (product) => {
@@ -74,7 +80,7 @@ export default class UserSession {
 	deleteProductToOrder = (idProd) => {
 		const productDeleted = this._currentOrder._removeProductToCart(idProd);
 		this._availableCash += productDeleted;
-		return this._updateCash();;
+		return this._updateCash();
 	};
 
 	_updateCash() {

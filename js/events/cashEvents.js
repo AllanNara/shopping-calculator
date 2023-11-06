@@ -1,4 +1,4 @@
-import { insertCash, useCash } from "../helpers/cash.js"
+import { insertCash, useCash } from "./function/cash.js"
 
 const initializedCash = document.getElementById("use-cash");
 const inputCash = document.getElementById("input-cash");

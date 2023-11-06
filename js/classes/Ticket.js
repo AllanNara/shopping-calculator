@@ -8,6 +8,7 @@ export default class Ticket {
 		this.reduction = 0;
 		this.TOTAL = null;
 		if(data) {
+			console.log({coupon: data.coupon})
 			this.store = data.store 
 			this.number = data.number 
 			this.cart = data.cart;
@@ -25,6 +26,7 @@ export default class Ticket {
 		}
 	}
 
+
 	get current() {
 		return {
 			store: this.store,
@@ -34,7 +36,7 @@ export default class Ticket {
 			totalItemsCart: this.cart.length,
 			subtotal: this.subtotal,
 			generalDiscount: this.generalDiscount,
-			coupons: this.coupon,
+			coupon: this.coupon,
 			reduction: this.reduction,
 			TOTAL: this.TOTAL,
 		};
@@ -54,8 +56,8 @@ export default class Ticket {
 		this.generalDiscount = discount;
 		if (this.subtotal !== 0) {
 			this._solveTotal()
-			return true
 		}
+		return true
 	};
 
 	_updateCoupon = ({discount, code}) => {
@@ -72,6 +74,7 @@ export default class Ticket {
 		this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
 		this.reduction = (this.TOTAL - this.subtotal).rounded();
 		if(this.coupon[0] && !this.coupon[0]._applied) {
+			if(this.TOTAL < this.coupon[0].discount) return
 			this.TOTAL -= this.coupon[0].discount;
 			this.reduction += this.coupon[0].discount
 			this.coupon[0]._applied = true

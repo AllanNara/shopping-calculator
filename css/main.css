@@ -25,6 +25,12 @@ header {
 	margin-bottom: 15px;
 }
 
+.container {
+	display: flex;
+	gap: 20px;
+	width: 100%
+}
+
 .cart {
 	background-color: red;
 	width: 46%

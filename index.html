@@ -22,180 +22,184 @@
 			</nav>
 		</header>
 
-		<main class="calculator">
-			<section id="money">
-				<div id="cash">
-					<div>
-						<label for="use-cash">Saldo inicial:</label>
-						<input type="checkbox" id="use-cash" />
-					</div>
-					<input type="number" name="" id="input-cash" disabled />
-					<div class="money">
-						<div id="cashAvailable">Dinero disponible:</div>
-						<h2 id="current-cash">$ ...</h2>
-					</div>
-					<div id="check-expenses" class="money expenses">
-						<h3>Total gastos:</h3>
-						<h2 id="total-expenses">$0</h2>
-					</div>
-					<div class="discountsTotal" id="total-discounts">
-					</div>
-				</div>
-				<div id="order" class="settingOrder">
-					<div class="orderBtn">
-						<div class="store">
-							<input type="text" name="store" id="store-input" placeholder="Nombre de la tienda:">
-							<span id="store-name">...</span>
+		<main class="container">
+			<section class="calculator">
+				<section id="money">
+					<div id="cash">
+						<div>
+							<label for="use-cash">Saldo inicial:</label>
+							<input type="checkbox" id="use-cash" />
 						</div>
-						<button class="btn" id="get-cart-btn" disabled>Mostrar carrito</button>
-						<button class="btn" id="generate-ticket-btn" disabled>Generar ticket</button>
-						<button class="btn" id="canceled-btn" disabled>Cancelar orden</button>
+						<input type="number" name="" id="input-cash" disabled />
+						<div class="money">
+							<div id="cashAvailable">Dinero disponible:</div>
+							<h2 id="current-cash">$ ...</h2>
+						</div>
+						<div id="check-expenses" class="money expenses">
+							<h3>Total gastos:</h3>
+							<h2 id="total-expenses">$0</h2>
+						</div>
+						<div class="discountsTotal" id="total-discounts">
+						</div>
 					</div>
-					<div class="discountGeneral">
-						<div class="disc">
-							<div id="btn-remove-disc" class="setDisc hidden">
-								<span class="btnRemoveDisc">x</span>
+					<div id="order" class="settingOrder">
+						<div class="orderBtn">
+							<div class="store">
+								<input type="text" name="store" id="store-input" placeholder="Nombre de la tienda:">
+								<span id="store-name">...</span>
 							</div>
-							<span>Desc. <span id="discount-general">0</span>%</span> 
-							<button class="btn-discounts" id="btn-discount-general" >Agregar descuento al total</button>
+							<button class="btn" id="get-cart-btn" disabled>Mostrar carrito</button>
+							<button class="btn" id="generate-ticket-btn" disabled>Generar ticket</button>
+							<button class="btn" id="canceled-btn" disabled>Cancelar orden</button>
 						</div>
-						<div class="coupons">
-							<div id="btn-remove-coupon" class="setDisc hidden">
-								<span class="btnRemoveDisc">x</span>
+						<div class="discountGeneral">
+							<div class="disc">
+								<div id="btn-remove-disc" class="setDisc hidden">
+									<span class="btnRemoveDisc">x</span>
+								</div>
+								<span>Desc. <span id="discount-general">0</span>%</span> 
+								<button class="btn-discounts" id="btn-discount-general" >Agregar descuento al total</button>
 							</div>
-							<span id="exists-coupon">Sin cupon </span>
-							<span id="coupon"></span>
-							<button class="btn-discounts" id="btn-coupon" >Agregar cupon de compra</button>
+							<div class="coupons">
+								<div id="btn-remove-coupon" class="setDisc hidden">
+									<span class="btnRemoveDisc">x</span>
+								</div>
+								<span id="exists-coupon">Sin cupon </span>
+								<span id="coupon"></span>
+								<button class="btn-discounts" id="btn-coupon" >Agregar cupon de compra</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</section>
+				<hr />
+	
+				<section id="product" class="formProduct">
+					<h4></h4>
+					<form id="form-product">
+						<div>
+							<label for="product-name"><h4>Nuevo producto:</h4></label>
+							<input type="text" name="name" id="product-name" />
+						</div>
+						<div>
+							<label for="category"><h4>Categoria:</h4></label>
+							<select name="category" id="category">
+								<option value="no-percederos">Alimentos no percederos</option>
+								<option value="frutas-verduras">Frutas y verduras</option>
+								<option value="carnes-huevos-lacteos">Carnes, huevos, lacteos</option>
+								<option value="cereales-legumbres">Cereales y legumbres</option>
+								<option value="dulces-gaseosas">Dulces, gaseosas</option>
+								<option value="cocina">Productos de cocina</option>
+								<option value="baño">Productos de baño</option>
+								<option value="otros">Otros</option>
+							</select>
+						</div>
+						<div>
+							<label for="price"><h4>Precio original:</h4></label>
+							<input type="number" name="name" id="price" step="0.01" min="0" />
+						</div>
+						<div>
+							<label for="quantity"><h4>Cantidad:</h4></label>
+							<input type="number" name="name" id="quantity" min="0" />
+						</div>
+	
+						<div id="discounts">
+							<h4>Descuentos y promociones</h4>
+							<div>
+								<input type="checkbox" name="percentage" class="typeDiscount" id="0" />
+								<span>
+									- Descuento de
+									<input
+										min="0"
+										class="blank percentage"
+										type="number"
+										id="discount0"
+										disabled
+									/>
+									%
+								</span>
+							</div>
+							<div>
+								<input type="checkbox" name="percentPerQ" class="typeDiscount" id="1" />
+								<span>
+									- Llevando
+									<input
+										min="0"
+										class="blank percentPerQ"
+										type="number"
+										id="condition1"
+										disabled
+									/>
+									o más, tenes un
+									<input
+										min="0"
+										class="blank percentPerQ"
+										type="number"
+										id="discount1"
+										disabled
+									/>
+									% de descuento en el producto
+								</span>
+							</div>
+							<div>
+								<input type="checkbox" name="inXUnity" class="typeDiscount" id="2" />
+								<span>
+									- Descuento de
+									<input
+										min="0"
+										class="blank inXUnity"
+										type="number"
+										id="discount2"
+										disabled
+									/>
+									% en la
+									<input
+										min="0"
+										class="blank inXUnity"
+										type="number"
+										id="condition2"
+										disabled
+									/>
+									unidad
+								</span>
+							</div>
+							<div>
+								<input type="checkbox" name="pricePerQ" class="typeDiscount" id="3" />
+								<span>
+									- Llevando
+									<input
+										min="0"
+										class="blank pricePerQ"
+										type="number"
+										id="condition3"
+										disabled
+									/>
+									o más, cada unidad te sale
+									<input
+										min="0"
+										class="blank pricePerQ"
+										type="number"
+										id="discount3"
+										disabled
+									/>
+								</span>
+							</div>
+						</div>
+						<br />
+						<div id="buttons">
+							<input class="btn" type="submit" value="Añadir" />
+							<input class="btn" type="button" value="Limpiar" id="clean-btn" />
+						</div>
+					</form>
+					<button class="btn" id="testing">PRODUCTO ALEATORIO</button>
+				</section>
 			</section>
-			<hr />
-
-			<section id="product" class="formProduct">
-				<h4></h4>
-				<form id="form-product">
-					<div>
-						<label for="product-name"><h4>Nuevo producto:</h4></label>
-						<input type="text" name="name" id="product-name" />
-					</div>
-					<div>
-						<label for="category"><h4>Categoria:</h4></label>
-						<select name="category" id="category">
-							<option value="no-percederos">Alimentos no percederos</option>
-							<option value="frutas-verduras">Frutas y verduras</option>
-							<option value="carnes-huevos-lacteos">Carnes, huevos, lacteos</option>
-							<option value="cereales-legumbres">Cereales y legumbres</option>
-							<option value="dulces-gaseosas">Dulces, gaseosas</option>
-							<option value="cocina">Productos de cocina</option>
-							<option value="baño">Productos de baño</option>
-							<option value="otros">Otros</option>
-						</select>
-					</div>
-					<div>
-						<label for="price"><h4>Precio original:</h4></label>
-						<input type="number" name="name" id="price" step="0.01" min="0" />
-					</div>
-					<div>
-						<label for="quantity"><h4>Cantidad:</h4></label>
-						<input type="number" name="name" id="quantity" min="0" />
-					</div>
-
-					<div id="discounts">
-						<h4>Descuentos y promociones</h4>
-						<div>
-							<input type="checkbox" name="percentage" class="typeDiscount" id="0" />
-							<span>
-								- Descuento de
-								<input
-									min="0"
-									class="blank percentage"
-									type="number"
-									id="discount0"
-									disabled
-								/>
-								%
-							</span>
-						</div>
-						<div>
-							<input type="checkbox" name="percentPerQ" class="typeDiscount" id="1" />
-							<span>
-								- Llevando
-								<input
-									min="0"
-									class="blank percentPerQ"
-									type="number"
-									id="condition1"
-									disabled
-								/>
-								o más, tenes un
-								<input
-									min="0"
-									class="blank percentPerQ"
-									type="number"
-									id="discount1"
-									disabled
-								/>
-								% de descuento en el producto
-							</span>
-						</div>
-						<div>
-							<input type="checkbox" name="inXUnity" class="typeDiscount" id="2" />
-							<span>
-								- Descuento de
-								<input
-									min="0"
-									class="blank inXUnity"
-									type="number"
-									id="discount2"
-									disabled
-								/>
-								% en la
-								<input
-									min="0"
-									class="blank inXUnity"
-									type="number"
-									id="condition2"
-									disabled
-								/>
-								unidad
-							</span>
-						</div>
-						<div>
-							<input type="checkbox" name="pricePerQ" class="typeDiscount" id="3" />
-							<span>
-								- Llevando
-								<input
-									min="0"
-									class="blank pricePerQ"
-									type="number"
-									id="condition3"
-									disabled
-								/>
-								o más, cada unidad te sale
-								<input
-									min="0"
-									class="blank pricePerQ"
-									type="number"
-									id="discount3"
-									disabled
-								/>
-							</span>
-						</div>
-					</div>
-					<br />
-					<div id="buttons">
-						<input class="btn" type="submit" value="Añadir" />
-						<input class="btn" type="button" value="Limpiar" id="clean-btn" />
-					</div>
-				</form>
-				<button class="btn" id="testing">PRODUCTO ALEATORIO</button>
+			
+			<section class="cart">
+				<h2>cart</h2>
 			</section>
 		</main>
-		
-		<section class="cart">
-			<h2>cart</h2>
-		</section>
+
+
 
 		<footer></footer>
 	</body>

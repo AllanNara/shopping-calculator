@@ -15,7 +15,7 @@ export default class UserSession {
 	}
 
 	constructor(data) {
-		this.username = data ? data.username : "user";
+		this.username = data ? data.username : "<user>";
 		this._initialCash = data ? data._initialCash : 0;
 		this._availableCash = data ? data._availableCash : 0;
 		this._currentOrder = new Ticket(data ? data._currentOrder : null);
@@ -32,6 +32,14 @@ export default class UserSession {
 
 	get order() {
 		return this._currentOrder.current;
+	}
+
+	set store(name) {
+		this._currentOrder.store = name.toUpperCase()
+	}
+
+	get currentStore() {
+		return this._currentOrder.store
 	}
 
 	addCash = (newCash) => {
@@ -54,7 +62,7 @@ export default class UserSession {
 
 	updateDiscountToOrder = (discount) => {
 		discount = Number(discount)
-		const changeDiscount = this._currentOrder._addGeneralDiscount(discount);
+		const changeDiscount = this._currentOrder._adidGeneratordGeneralDiscount(discount);
 		if (!changeDiscount) return null;
 		if(this._useCashFlag) return this._updateCash();
 		return true
@@ -97,6 +105,7 @@ export default class UserSession {
 
 	closeOrder(state = true) {
 		if (!state) this._availableCash = this._initialCash;
+		else this._initialCash = this._availableCash;
 		const result = this._currentOrder._closeTicket(state);
 		this._currentOrder = new Ticket();
 		return result;

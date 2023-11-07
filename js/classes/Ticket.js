@@ -1,24 +1,23 @@
 import ProductInCart from "./ProductInCart.js";
 import Coupon from "./Coupon.js"
+import { idGenerator } from "../helpers/index.js";
 
 export default class Ticket {
-	static ticketNumber = 100;
 	constructor(data) {
 		this.status = "pending";
 		this.reduction = 0;
 		this.TOTAL = null;
 		if(data) {
-			console.log({coupon: data.coupon})
 			this.store = data.store 
-			this.number = data.number 
+			this.number = data.number
 			this.cart = data.cart;
 			this.subtotal = data.cart.reduce(((acc, curr) => acc + curr.total), 0);
 			this.generalDiscount = data.generalDiscount;
 			this.coupon = data.coupon;
 			this._solveTotal()
 		} else {
-			this.store = "store";
-			this.number = ++Ticket.ticketNumber;
+			this.store = null
+			this.number = `${idGenerator()}`
 			this.cart = []
 			this.subtotal = 0;
 			this.generalDiscount = 0;
@@ -33,7 +32,7 @@ export default class Ticket {
 			number: this.number,
 			status: this.status,
 			cart: this.cart.map((prod) => prod.current),
-			totalItemsCart: this.cart.length,
+			totalItems: this.cart.length,
 			subtotal: this.subtotal,
 			generalDiscount: this.generalDiscount,
 			coupon: this.coupon,
@@ -54,9 +53,7 @@ export default class Ticket {
 	_addGeneralDiscount = (discount) => {
 		if(this.status !== "pending") return null
 		this.generalDiscount = discount;
-		if (this.subtotal !== 0) {
-			this._solveTotal()
-		}
+		if (this.subtotal !== 0) this._solveTotal()
 		return true
 	};
 
@@ -71,14 +68,13 @@ export default class Ticket {
 	_solveTotal = () => {
 		if(this.status !== "pending") return null
 		if(!this.generalDiscount) this.TOTAL = this.subtotal
-		this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
-		this.reduction = (this.TOTAL - this.subtotal).rounded();
-		if(this.coupon[0] && !this.coupon[0]._applied) {
+		else this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
+		if(this.coupon[0]) {
+			this.coupon[0]._applied = true
 			if(this.TOTAL < this.coupon[0].discount) return
 			this.TOTAL -= this.coupon[0].discount;
-			this.reduction += this.coupon[0].discount
-			this.coupon[0]._applied = true
 		}
+		this.reduction = (this.TOTAL - this.subtotal).rounded();
 	};
 
 	_removeProductToCart = (idProd) => {
@@ -93,15 +89,8 @@ export default class Ticket {
 		return priceRemove
 	};
 
-	_closeTicket = (state, orders = []) => {
+	_closeTicket = (state) => {
 		this.status = state ? "finished" : "canceled";
-		const order = this._generateOrder(state);
-		if (!state) return order
-		orders.push(order);
-		return orders;
-	};
-
-	_generateOrder = () => {
 		const { store, number, status, ...rest } = this;
 		const ticket = {};
 		for (let key in rest) {
@@ -121,7 +110,7 @@ export default class Ticket {
 			}
 		})
 		
-		const order = { number, status, ticket };
+		const order = { store, number, status, ticket };
 		order.date = new Date().toLocaleString().split(",")[0];
 		return order;
 	};

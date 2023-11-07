@@ -1,21 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<title>Tercera preentrega</title>
-		<link rel="stylesheet" href="../css/style.css" />
-		<link rel="icon" href="favicon.ico" type="image/x-icon" />
-		<script src="../js/dom.js" type="module"></script>
+		<link rel="stylesheet" href="../css/main.css" />
+		<link rel="stylesheet" href="../css/history.css" />
+		<link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon" />
+		<script src="https://kit.fontawesome.com/ad98102b65.js" crossorigin="anonymous"></script>
+		<script src="../js/historyPage.js" type="module"></script>
 	</head>
 	<body>
-		<nav>
-			<ul>
-				<li><a href="../index.html"><h1>Controlador de compras</h1></a></li>
-				<li>Historial de tickets</li>
-				<li><a href="./last_canceled.html">Ultimo cancelado</a></li>
-				<li><a href="./about.html">Sobre la app</a></li>
-			</ul>
-		</nav>
+		<header>
+			<h1 class="title"><a href="../index.html">Controlador de compras</a></h1>
+			<a class="about" href="./about.html">Sobre la app</a>
+			<nav class="navbar">
+				<ul class="nav-list">
+					<li class="welcome-user"><h2>¡¡ Bienvenido <span id="username">...</span> <i id="edit-username" class="editName fa-solid fa-pen-to-square fa-2xs"></i> !!</h2></li>
+					<li class="history-orders"><a href="../index.html">Volver al inicio</a></li>
+					<li><button class="restarUser" id="reset-session">Resetear usuario</button></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="orders">
+			<div class="itemOrder">
+				<h3>order1</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order2</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order3</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order4</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order5</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order6</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order7</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order8</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order9</h3>
+			</div>
+			<div class="itemOrder">
+				<h3>order10</h3>
+			</div>
+		</main>
 
 		<footer></footer>
 	</body>

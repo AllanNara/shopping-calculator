@@ -8,4 +8,7 @@ export default function cleanAll() {
 	document.getElementById("use-cash").checked = false
 	document.getElementById("input-cash").value = null;
 	document.getElementById("input-cash").setAttribute("disabled", "");
+	document.getElementById("canceled-btn").setAttribute("disabled", "");
+	document.getElementById("generate-ticket-btn").setAttribute("disabled", "");
+	document.getElementById("store-input").value = ""
 }

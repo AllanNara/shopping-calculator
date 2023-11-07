@@ -3,6 +3,7 @@ import UserSession from "../../classes/UserSession.js";
 import { removeError, sendError } from "../../helpers/errors.js";
 import { disableDiscountFields, enableDiscountsFields } from "../../helpers/discountFields.js";
 import { generateProduct } from "../../helpers/product.js";
+import storage from "../../helpers/storage.js";
 
 export function discountChanged({ target }) {
 	if (target.checked) {
@@ -23,11 +24,13 @@ export function addProduct(e) {
 
   const checkboxUseCash = document.getElementById("use-cash");
 	const currentCash = document.getElementById("current-cash");
-		const expenses = document.getElementById("total-expenses");
+	const expenses = document.getElementById("total-expenses");
 	try {
 		removeError()
 		const item = generateProduct()
 		const balance = user.addProductToOrder(item);
+		document.getElementById("canceled-btn").removeAttribute("disabled");
+		document.getElementById("generate-ticket-btn").removeAttribute("disabled");
 		expenses.innerText = `$${user.toPay}`;
 		if (checkboxUseCash.checked && user._initialCash) currentCash.innerText = `$${user.availableCash}`;
 		if(!balance) useCash(false)

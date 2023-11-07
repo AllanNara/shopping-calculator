@@ -14,20 +14,7 @@
 
 body {
 	background-color: var(--color-3);
-	height: 100vh
-}
-
-.title {
-	display: flex;
-	justify-content: center;
-}
-
-main {
-	margin: 0 10px;
-	padding: 10px;
-	width: 41%;
-	background-color: var(--color-2);
-	border: solid 1px cadetblue;
+	height: 100vh;
 }
 
 header {
@@ -36,6 +23,33 @@ header {
 	display: flex;
 	flex-flow: column nowrap;
 	margin-bottom: 15px;
+}
+
+.cart {
+	background-color: red;
+	width: 46%
+}
+
+.title {
+	display: flex;
+	justify-content: center;
+}
+
+.title a {
+	color: black;
+	text-decoration: underline;
+}
+
+.title a:active {
+	color: var(--color-2)
+}
+
+.calculator {
+	margin: 0 10px;
+	padding: 10px;
+	width: 41%;
+	background-color: var(--color-2);
+	border: solid 1px cadetblue;
 }
 
 .about {
@@ -141,7 +155,7 @@ header {
 	border-width: 3px;
 }
 
-#username:hover {
+.editName:hover {
 	color: var(--color-5)
 }
 
@@ -242,4 +256,18 @@ header {
 	border-color: #6BA5D1;
 	padding: 3px;
 	font-family: 'Times New Roman', Times, serif
+}
+
+.store {
+	display: flex;
+	width: 100%;
+}
+
+.store input {
+	width: 50%
+}
+
+.store span {
+	flex: 1 1 auto; 
+	text-align: center;
 }

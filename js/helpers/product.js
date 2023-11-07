@@ -1,3 +1,4 @@
+import { setProductName } from "./index.js";
 import storage from "./storage.js";
 
 export function generateProduct() {
@@ -5,7 +6,7 @@ export function generateProduct() {
 	let category = document.getElementById("category").value;
 	let price = Number(document.getElementById("price").value);
 
-	const product = { name, category, price };
+	const product = { name: setProductName(name), category, price };
 	const discount = setDiscount();
 	let quantity = Number(document.getElementById("quantity").value);
 

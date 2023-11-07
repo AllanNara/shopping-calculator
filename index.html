@@ -3,24 +3,26 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Tercera preentrega</title>
-		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="./css/main.css" />
 		<link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon" />
+		<script src="https://kit.fontawesome.com/ad98102b65.js" crossorigin="anonymous"></script>
 		<script src="./js/main.js" type="module"></script>
 	</head>
 	<body>
+		<button id="asdfg" style="display: none">el boton</button>
 		<header>
-			<h1 class="title">Controlador de compras</h1>
+			<h1 class="title"><a href="#">Controlador de compras</a></h1>
 			<a class="about" href="./pages/about.html">Sobre la app</a>
 			<nav class="navbar">
 				<ul class="nav-list">
-					<li class="welcome-user"><h2>¡¡ Bienvenido <span id="username">usuario1</span> !!</h2></li>
+					<li class="welcome-user"><h2>¡¡ Bienvenido <span id="username">...</span> <i id="edit-username" class="editName fa-solid fa-pen-to-square fa-2xs"></i> !!</h2></li>
 					<li class="history-orders"><a href="./pages/history.html">Historial de tickets</a></li>
 					<li><button class="restarUser" id="reset-session">Resetear usuario</button></li>
 				</ul>
 			</nav>
 		</header>
 
-		<main>
+		<main class="calculator">
 			<section id="money">
 				<div id="cash">
 					<div>
@@ -41,9 +43,13 @@
 				</div>
 				<div id="order" class="settingOrder">
 					<div class="orderBtn">
-						<button class="btn" disabled>Mostrar carrito</button>
-						<button class="btn" disabled>Generar ticket</button>
-						<button class="btn" disabled>Cancelar orden</button>
+						<div class="store">
+							<input type="text" name="store" id="store-input" placeholder="Nombre de la tienda:">
+							<span id="store-name">...</span>
+						</div>
+						<button class="btn" id="get-cart-btn" disabled>Mostrar carrito</button>
+						<button class="btn" id="generate-ticket-btn" disabled>Generar ticket</button>
+						<button class="btn" id="canceled-btn" disabled>Cancelar orden</button>
 					</div>
 					<div class="discountGeneral">
 						<div class="disc">
@@ -186,6 +192,10 @@
 				<button class="btn" id="testing">PRODUCTO ALEATORIO</button>
 			</section>
 		</main>
+		
+		<section class="cart">
+			<h2>cart</h2>
+		</section>
 
 		<footer></footer>
 	</body>

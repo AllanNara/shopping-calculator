@@ -10,8 +10,9 @@ export default class Ticket {
 		if(data) {
 			this.store = data.store 
 			this.number = data.number
+			// this.cart = data.cart.map(prod => new ProductInCart(prod));
 			this.cart = data.cart;
-			this.subtotal = data.cart.reduce(((acc, curr) => acc + curr.total), 0);
+			this.subtotal = (data.cart.reduce(((acc, curr) => acc + curr.total), 0)).rounded();
 			this.generalDiscount = data.generalDiscount;
 			this.coupon = data.coupon;
 			this._solveTotal()

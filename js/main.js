@@ -24,4 +24,3 @@ document.getElementById("asdfg").addEventListener("click", () => {
 console.log(storage("get", "local")("userData"))
 // console.log(storage("get", "session")("lastCanceled"))
 // console.log(storage("get", "local")("orders"))
-

@@ -4,6 +4,7 @@ import { removeError, sendError } from "../../helpers/errors.js";
 import { disableDiscountFields, enableDiscountsFields } from "../../helpers/discountFields.js";
 import { generateProduct } from "../../helpers/product.js";
 import storage from "../../helpers/storage.js";
+import { updatedItemsOrder } from "../../helpers/orderItems.js";
 
 export function discountChanged({ target }) {
 	if (target.checked) {
@@ -33,7 +34,8 @@ export function addProduct(e) {
 		document.getElementById("generate-ticket-btn").removeAttribute("disabled");
 		expenses.innerText = `$${user.toPay}`;
 		if (checkboxUseCash.checked && user._initialCash) currentCash.innerText = `$${user.availableCash}`;
-		if(!balance) useCash(false)
+		if(!balance) useCash(false);
+		updatedItemsOrder()
 		resetForm()
 	} catch (error) {
 		console.log(error)

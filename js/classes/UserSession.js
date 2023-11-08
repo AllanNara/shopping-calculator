@@ -62,7 +62,7 @@ export default class UserSession {
 
 	updateDiscountToOrder = (discount) => {
 		discount = Number(discount)
-		const changeDiscount = this._currentOrder._adidGeneratordGeneralDiscount(discount);
+		const changeDiscount = this._currentOrder._addGeneralDiscount(discount);
 		if (!changeDiscount) return null;
 		if(this._useCashFlag) return this._updateCash();
 		return true

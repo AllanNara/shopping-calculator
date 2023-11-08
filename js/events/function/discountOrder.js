@@ -1,4 +1,5 @@
 import UserSession from "../../classes/UserSession.js";
+import { updatedItemsOrder } from "../../helpers/orderItems.js";
 import updateExpenses from "../../helpers/updateExpenses.js";
 import { useCash } from "./cash.js";
 
@@ -15,6 +16,7 @@ export function addGeneralDiscount() {
     document.getElementById("btn-remove-disc").classList.remove("hidden")
   }
   updateExpenses()
+  updatedItemsOrder()
 }
 
 export function removeGeneralDiscount(event) {
@@ -24,6 +26,7 @@ export function removeGeneralDiscount(event) {
   document.getElementById("discount-general").innerText = 0;
   document.getElementById("btn-remove-disc").classList.add("hidden")
   updateExpenses()
+  updatedItemsOrder()
 }
 
 export function addCoupon() {
@@ -38,6 +41,7 @@ export function addCoupon() {
     document.getElementById("btn-remove-coupon").classList.remove("hidden")
   }
   updateExpenses()
+  updatedItemsOrder()
 }
 
 export function removeCoupon(event) {
@@ -48,4 +52,5 @@ export function removeCoupon(event) {
   document.getElementById("coupon").innerText = ""
   document.getElementById("btn-remove-coupon").classList.add("hidden")
   updateExpenses()
+  updatedItemsOrder()
 }

@@ -36,7 +36,7 @@
 							<h2 id="current-cash">$ ...</h2>
 						</div>
 						<div id="check-expenses" class="money expenses">
-							<h3>Total gastos:</h3>
+							<h3 class="totalExpenses">Total gastos:</h3>
 							<h2 id="total-expenses">$0</h2>
 						</div>
 						<div class="discountsTotal" id="total-discounts">
@@ -48,7 +48,6 @@
 								<input type="text" name="store" id="store-input" placeholder="Nombre de la tienda:">
 								<span id="store-name">...</span>
 							</div>
-							<button class="btn" id="get-cart-btn" disabled>Mostrar carrito</button>
 							<button class="btn" id="generate-ticket-btn" disabled>Generar ticket</button>
 							<button class="btn" id="canceled-btn" disabled>Cancelar orden</button>
 						</div>
@@ -76,30 +75,29 @@
 				<section id="product" class="formProduct">
 					<h4></h4>
 					<form id="form-product">
-						<div>
-							<label for="product-name"><h4>Nuevo producto:</h4></label>
-							<input type="text" name="name" id="product-name" />
-						</div>
-						<div>
-							<label for="category"><h4>Categoria:</h4></label>
-							<select name="category" id="category">
-								<option value="no-percederos">Alimentos no percederos</option>
-								<option value="frutas-verduras">Frutas y verduras</option>
-								<option value="carnes-huevos-lacteos">Carnes, huevos, lacteos</option>
-								<option value="cereales-legumbres">Cereales y legumbres</option>
-								<option value="dulces-gaseosas">Dulces, gaseosas</option>
-								<option value="cocina">Productos de cocina</option>
-								<option value="baño">Productos de baño</option>
-								<option value="otros">Otros</option>
-							</select>
-						</div>
-						<div>
-							<label for="price"><h4>Precio original:</h4></label>
-							<input type="number" name="name" id="price" step="0.01" min="0" />
-						</div>
-						<div>
-							<label for="quantity"><h4>Cantidad:</h4></label>
-							<input type="number" name="name" id="quantity" min="0" />
+						<div class="containerForm">
+							<div>
+								<label for="product-name"><h4>Nuevo producto:</h4></label>
+								<input type="text" name="name" id="product-name" />
+								
+								<label for="category"><h4>Categoria:</h4></label>
+								<select name="category" id="category">
+									<option value="no-percederos">Alimentos no percederos</option>
+									<option value="frutas-verduras">Frutas y verduras</option>
+									<option value="carnes-huevos-lacteos">Carnes, huevos, lacteos</option>
+									<option value="cereales-legumbres">Cereales y legumbres</option>
+									<option value="dulces-gaseosas">Dulces, gaseosas</option>
+									<option value="cocina">Productos de cocina</option>
+									<option value="baño">Productos de baño</option>
+									<option value="otros">Otros</option>
+								</select>
+							</div>
+							<div>
+								<label for="price"><h4>Precio original:</h4></label>
+								<input type="number" name="name" id="price" step="0.01" min="0" />
+								<label for="quantity"><h4>Cantidad:</h4></label>
+								<input type="number" name="name" id="quantity" min="0" />
+							</div>
 						</div>
 	
 						<div id="discounts">
@@ -194,9 +192,17 @@
 				</section>
 			</section>
 			
-			<section class="cart">
-				<h2>cart</h2>
-			</section>
+			<aside class="cart">
+				<section class="cartProducts" id="cart-products"></section>
+				<section class="cartOrder" id="cart-order">
+					<div class="orderItems">
+						<h4>Total de productos: <span id="total-products">0</span></h4>
+						<p class="orderItem">Subtota: <span id="subtotal-order">$0</span></p>
+						<p class="orderItem">Reducciones: <span id="total-reduction"><i>no aplica</i></span></p>
+						<h3 class="orderItem">TOTAL: <span id="total-to-pay">$0</span></h3>
+					</div>
+				</section>
+			</aside>
 		</main>
 
 

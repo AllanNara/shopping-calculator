@@ -74,7 +74,7 @@ export default class Ticket {
 			if(this.TOTAL < this.coupon[0].discount) return
 			this.TOTAL -= this.coupon[0].discount;
 		}
-		this.reduction = (this.TOTAL - this.subtotal).rounded();
+		this.reduction = (this.subtotal - this.TOTAL).rounded();
 	};
 
 	_removeProductToCart = (idProd) => {

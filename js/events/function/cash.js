@@ -1,4 +1,5 @@
 import UserSession from "../../classes/UserSession.js";
+import { numberToPriceString } from "../../helpers/index.js";
 
 export function useCash(arg) {
 	let checked = arg.constructor.name !== "Event" ? arg : arg.target.checked;
@@ -22,7 +23,7 @@ export function useCash(arg) {
 	} else {
 		inputCash.removeAttribute("disabled");
 		inputCash.value = 0;
-		currentCash.innerText = `$${user.availableCash}`;
+		currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
 	}
 	user._changeUseCashFlag(checked);
 }
@@ -41,7 +42,7 @@ export function insertCash({ key, target }) {
 			if (confirmCash) {
 				const balance = user.addCash(cash);
 				if(!balance) useCash(false);
-				else currentCash.innerText = `$${user.availableCash}`;
+				else currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
 			}
 		}
 	}

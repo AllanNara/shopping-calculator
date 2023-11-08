@@ -1,4 +1,5 @@
 import UserSession from "../classes/UserSession.js";
+import { numberToPriceString } from "./index.js";
 import cleanAll from "./reset.js";
 
 const user = UserSession.getInstance()[1]
@@ -10,14 +11,12 @@ export default function setUserForm() {
   if(user._useCashFlag) {
     document.getElementById("input-cash").removeAttribute("disabled");
     document.getElementById("input-cash").value = 0;
-    document.getElementById("current-cash").innerText = `$${user._initialCash ? user.availableCash : 0}`;
+    document.getElementById("current-cash").innerText = `${user._initialCash ? numberToPriceString(user.availableCash) : "$ 0"}`;
   }
   if(user.order.totalItems) {
     document.getElementById("canceled-btn").removeAttribute("disabled");
     document.getElementById("generate-ticket-btn").removeAttribute("disabled");
   }
-
-  if(user._currentOrder.TOTAL) document.getElementById("total-expenses").innerText = `$${user.toPay}`;
 
   if(user.order.generalDiscount) {
     document.getElementById("discount-general").innerText = user.order.generalDiscount;

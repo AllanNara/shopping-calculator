@@ -23,11 +23,11 @@ export default class UserSession {
 	}
 
 	get toPay() {
-		return this._currentOrder.TOTAL.toLocaleString();
+		return this._currentOrder.TOTAL;
 	}
 
 	get availableCash() {
-		return this._availableCash.toLocaleString();
+		return this._availableCash;
 	}
 
 	get order() {

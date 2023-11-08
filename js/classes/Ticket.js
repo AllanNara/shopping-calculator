@@ -67,12 +67,12 @@ export default class Ticket {
 
 	_solveTotal = () => {
 		if(this.status !== "pending") return null
-		if(!this.generalDiscount) this.TOTAL = this.subtotal
+		if(!this.generalDiscount) this.TOTAL = this.subtotal.rounded()
 		else this.TOTAL = (this.subtotal - (this.subtotal * this.generalDiscount) / 100).rounded();
 		if(this.coupon[0]) {
 			this.coupon[0]._applied = true
 			if(this.TOTAL < this.coupon[0].discount) return
-			this.TOTAL -= this.coupon[0].discount;
+			this.TOTAL = (this.TOTAL - this.coupon[0].discount).rounded();
 		}
 		this.reduction = (this.subtotal - this.TOTAL).rounded();
 	};

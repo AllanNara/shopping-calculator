@@ -1,6 +1,7 @@
 import UserSession from "../../classes/UserSession.js";
-import { updatedItemsOrder } from "../../helpers/orderItems.js";
-import updateExpenses from "../../helpers/updateExpenses.js";
+import { numberToPriceString } from "../../helpers/index.js";
+import { updateItemsOrder } from "../../helpers/itemsOrder.js";
+import updateCash from "../../helpers/updateCash.js";
 import { useCash } from "./cash.js";
 
 const user = UserSession.getInstance()[1];
@@ -15,8 +16,8 @@ export function addGeneralDiscount() {
     document.getElementById("discount-general").innerText = discount;
     document.getElementById("btn-remove-disc").classList.remove("hidden")
   }
-  updateExpenses()
-  updatedItemsOrder()
+  updateCash()
+  updateItemsOrder()
 }
 
 export function removeGeneralDiscount(event) {
@@ -25,8 +26,8 @@ export function removeGeneralDiscount(event) {
   if(!balance) useCash(false);
   document.getElementById("discount-general").innerText = 0;
   document.getElementById("btn-remove-disc").classList.add("hidden")
-  updateExpenses()
-  updatedItemsOrder()
+  updateCash()
+  updateItemsOrder()
 }
 
 export function addCoupon() {
@@ -37,11 +38,11 @@ export function addCoupon() {
   if(!balance) useCash(false);
   else {
     document.getElementById("exists-coupon").innerText = "Cupon por: "
-    document.getElementById("coupon").innerText = "$" + Number(coupon).toLocaleString();
+    document.getElementById("coupon").innerText = numberToPriceString(coupon);
     document.getElementById("btn-remove-coupon").classList.remove("hidden")
   }
-  updateExpenses()
-  updatedItemsOrder()
+  updateCash()
+  updateItemsOrder()
 }
 
 export function removeCoupon(event) {
@@ -51,6 +52,6 @@ export function removeCoupon(event) {
   document.getElementById("exists-coupon").innerText = "Sin cupon"
   document.getElementById("coupon").innerText = ""
   document.getElementById("btn-remove-coupon").classList.add("hidden")
-  updateExpenses()
-  updatedItemsOrder()
+  updateCash()
+  updateItemsOrder()
 }

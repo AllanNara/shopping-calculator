@@ -6,6 +6,7 @@ import { generateProduct } from "../../helpers/product.js";
 import storage from "../../helpers/storage.js";
 import { updateItemsOrder } from "../../helpers/itemsOrder.js";
 import { numberToPriceString } from "../../helpers/index.js";
+import { showProducts } from "../../helpers/showCart.js";
 
 export function discountChanged({ target }) {
 	if (target.checked) {
@@ -34,8 +35,9 @@ export function addProduct(e) {
 		document.getElementById("generate-ticket-btn").removeAttribute("disabled");
 		if (checkboxUseCash.checked && user._initialCash) currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
 		if(!balance) useCash(false);
-		updateItemsOrder()
-		resetForm()
+		updateItemsOrder();
+		showProducts();
+		resetForm();
 	} catch (error) {
 		console.log(error)
 		sendError(error)

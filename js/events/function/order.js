@@ -31,7 +31,3 @@ export function changeStore(e) {
     e.target.value = ""
   }
 }
-
-export function updateCart() {
-  
-}

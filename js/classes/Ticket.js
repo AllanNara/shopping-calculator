@@ -10,8 +10,13 @@ export default class Ticket {
 		if(data) {
 			this.store = data.store 
 			this.number = data.number
-			// this.cart = data.cart.map(prod => new ProductInCart(prod));
-			this.cart = data.cart;
+			this.cart = data.cart.map(prod => {
+				const { name, category, price } = prod.product
+				const { type: discountType, discount, condition: discountCondition } = prod._discountBases;
+				const { quantity } = prod
+				const prodParse = new ProductInCart({ name, category, price, discount, discountType, discountCondition, quantity })
+				return prodParse
+			});
 			this.subtotal = (data.cart.reduce(((acc, curr) => acc + curr.total), 0)).rounded();
 			this.generalDiscount = data.generalDiscount;
 			this.coupon = data.coupon;
@@ -82,7 +87,7 @@ export default class Ticket {
 		if(this.status !== "pending") return null
 		if (!this.cart.length) return null;
 		if(!idProd) idProd = this.cart[this.cart.length - 1].id;
-		const indexCart = this.cart.findIndex((prod) => prod.id === idProd);
+		const indexCart = this.cart.findIndex((prod) => prod.id == idProd);
 		const priceRemove = this.cart[indexCart].price
 		this.subtotal = (this.subtotal - this.cart[indexCart].total).rounded();
 		this.cart.splice(indexCart, 1);

@@ -1,39 +1,72 @@
-import UserSession from "../classes/UserSession"
+import UserSession from "../classes/UserSession.js"
+import { numberToPriceString } from "./index.js";
+import { updateItemsOrder } from "./itemsOrder.js";
+import updateCash from "./updateCash.js";
 
-const user = UserSession.getInstance()[1]
+function createArticle(productObj) {
+    let { product, quantity, subtotal, discount, condition, type, reduction, total } = productObj;
+    subtotal = numberToPriceString(subtotal);
+    reduction = numberToPriceString(reduction);
+    total = numberToPriceString(total)
 
-const cart = user.order.cart
+    let discountP;
+    if(reduction === "$0") discountP = `<i>No aplica descuento</i>`
+    else switch(type) {
+        case "percentage":
+            discountP = `<i>Descuento del ${discount}% (${reduction})</i>`
+            break
+        case "pricePerQ":
+            discount = numberToPriceString(discount)
+            discountP = `<i>Con ${condition} o más, c/u ${discount} (${reduction})</i>`;
+            break
+        case "percentPerQ":
+            discountP = `<i>Por ${condition} o más un ${discount}% desc (${reduction})</i>`
+            break
+        case "inXUnity":
+            discountP = `<i>Desc. del ${discount}% en ${condition} u. (${reduction})</i>`
+            break
+        default:
+        break
+    }
 
-const template = `
-<div class="productItem">
-    <p>Lavandina x 3 = $300</p>
-    <p>Descuento del 10% (-$30)</p>
-    <p>Total = <b>$3060</b></p>
-</div>
-<button class="deleteProduct"><i class="fa-regular fa-trash-can"></i></button>`
-
-for (let i = 0; i < cart.length; i++) {
-    // cart[i].product
-    // cart[i].quantity
-    // cart[i].subtotal
-    // cart[i].discountBases.discount
-    // cart[i].discountBases.type
-    // cart[i].reduction
-    // cart[i].total
-
-    // cart[i].id
-    const article = document.createElement("article")
-    article.className = "productInCart"
-    
+    return (`
+    <div class="productItem">
+        <p><u>${product.name}</u> x ${quantity} = ${subtotal}</p>
+        <p>${discountP}</p>
+        <p>Total = <b>${total}</b></p>
+    </div>
+    `)
 }
 
+export function showProducts() {
+    const cartProducts = document.getElementById("cart-products")
+    cartProducts.innerHTML = "";
 
+    const user = UserSession.getInstance()[1];
+    const cart = user.order.cart;
+    const elements = []
 
-// let mensaje = "holaaaaa"
-// let style = "border: solid 1px red;"
-// const newEle = document.createElement("p")
-// newEle.className = "title"
-// newEle.innerHTML = `<span style="${style}">${mensaje}</span>`;
+    for (let i = 0; i < cart.length; i++) {
+        const article = document.createElement("article")
+        article.className = "productInCart"
+        article.innerHTML = createArticle({ ...cart[i], ...cart[i].discountBases })
+        
+        const buttonDelete = document.createElement("button")
+        buttonDelete.className = "deleteProduct" 
+        buttonDelete.id = cart[i].id
+        buttonDelete.addEventListener("click", e => {
+            user.deleteProductToOrder(e.target.id)
+            updateItemsOrder()
+            updateCash()
+            showProducts()
+        })
+        buttonDelete.innerHTML = `<i class="fa-regular fa-trash-can"></i>`
+    
+        article.appendChild(buttonDelete)
+        elements.push(article)
+    }
+    
+    cartProducts.append(...elements)
+    return true
+}
 
-// const cartSection = document.getElementById("cart-products")
-// cartSection.appendChild(newEle)

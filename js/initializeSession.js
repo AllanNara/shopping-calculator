@@ -3,7 +3,7 @@ import { updateName } from "./events/function/user.js";
 
 import UserSession from "./classes/UserSession.js";
 import { cancelOrder } from "./events/function/order.js";
-import { updateItemsOrder } from "./helpers/itemsOrder.js";
+
 const [ flag, user ] = UserSession.getInstance()
 
 storage("save", "session")("saveUser", true);

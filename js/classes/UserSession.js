@@ -1,4 +1,5 @@
 import storage from "../helpers/storage.js";
+import { alertConfirmAction } from "../utils/alerts.js";
 import Ticket from "./Ticket.js";
 
 export default class UserSession {
@@ -20,6 +21,7 @@ export default class UserSession {
 		this._availableCash = data ? data._availableCash : 0;
 		this._currentOrder = new Ticket(data ? data._currentOrder : null);
 		this._useCashFlag = data ? data._useCashFlag : false;
+		this._rememberAlertCash = true;
 	}
 
 	get toPay() {
@@ -42,64 +44,68 @@ export default class UserSession {
 		return this._currentOrder.store
 	}
 
-	addCash = (newCash) => {
+	addCash = async(newCash) => {
 		this._availableCash = this._initialCash = newCash;
-		if (!this._useCashFlag) this._changeUseCashFlag(true);
-		return this._updateCash();
+		this._rememberAlertCash = true
+		if (!this._useCashFlag) await this._changeUseCashFlag(true);
+		return await this._updateCash();
 	};
 
-	_changeUseCashFlag = (change) => {	
+	_changeUseCashFlag = async(change) => {	
 		let changeTo = !this._useCashFlag
 		if(!change || !changeTo) {
 			this._useCashFlag = false;
 			this._availableCash = this._initialCash = 0
 		} else if(change || changeTo) {
 			this._useCashFlag = true;
-			this._updateCash();
+			await this._updateCash();
 		}
 		return this._useCashFlag
 	};
 
-	updateDiscountToOrder = (discount) => {
+	updateDiscountToOrder = async(discount) => {
 		discount = Number(discount)
+		this._rememberAlertCash = true
 		const changeDiscount = this._currentOrder._addGeneralDiscount(discount);
 		if (!changeDiscount) return null;
-		if(this._useCashFlag) return this._updateCash();
+		if(this._useCashFlag) return await this._updateCash();
 		return true
 
 	};
 
-	updateCoupon = (discount, code) => {
+	updateCoupon = async(discount, code) => {
 		discount = discount ? Number(discount) : null
+		this._rememberAlertCash = true
 		const couponAdded = this._currentOrder._updateCoupon({ discount, code });
 		if (!couponAdded) return null;
 		this._availableCash = this._initialCash;
 	
-		if(this._useCashFlag) return this._updateCash();
+		if(this._useCashFlag) return await this._updateCash();
 		return true
 	};
 
-	addProductToOrder = (product) => {
+	addProductToOrder = async(product) => {
 		const productAdded = this._currentOrder._addProductToCart(product);
 		if (!productAdded) return null;
-		return this._updateCash();
+		return await this._updateCash();
 	};
 
-	deleteProductToOrder = (idProd) => {
+	deleteProductToOrder = async(idProd) => {
 		const productDeleted = this._currentOrder._removeProductToCart(idProd);
 		this._availableCash += productDeleted;
-		return this._updateCash();
+		this._rememberAlertCash = false
+		return await this._updateCash();
 	};
 
-	_updateCash() {
+	async _updateCash() {
 		if (!this._useCashFlag) return null;
 		this._availableCash = (this._initialCash - this._currentOrder.TOTAL).rounded();
-		if (this._availableCash < 0 && this._initialCash) {
-			const next = confirm(
-				"¡Los gastos superan el dinero disponible!\n ¿Esta seguro que desea proseguir con su saldo inicial? \n"
-			);
-			if (!next) return this._changeUseCashFlag(false);
+		if (this._availableCash < 0 && this._initialCash && this._rememberAlertCash) {
+			const next = await alertConfirmAction("proseguir con saldo inicial", "¡Los gastos superan el dinero disponible!")
+			if(this._rememberAlertCash) this._rememberAlertCash = false
+			if (!next) return await this._changeUseCashFlag(false);
 		}
+		if(!this._rememberAlertCash && this._useCashFlag && this._availableCash > 0) this._rememberAlertCash = true
 		return true;
 	}
 

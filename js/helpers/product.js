@@ -1,4 +1,4 @@
-import { setProductName } from "./index.js";
+import { setProductName } from "../utils/index.js";
 import storage from "./storage.js";
 
 export function generateProduct() {

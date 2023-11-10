@@ -5,6 +5,6 @@ const generateTicketBtn = document.getElementById("generate-ticket-btn")
 const cancelOrderBtn = document.getElementById("canceled-btn")
 
 storeInput.addEventListener("keyup", changeStore)
-cancelOrderBtn.addEventListener("click", cancelOrder)
+cancelOrderBtn.addEventListener("click", () => cancelOrder())
 generateTicketBtn.addEventListener("click", generateTicket)
 

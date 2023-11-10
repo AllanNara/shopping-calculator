@@ -1,5 +1,5 @@
 import UserSession from "../classes/UserSession.js";
-import { numberToPriceString } from "./index.js";
+import { numberToPriceString } from "../utils/index.js";
 
 export default function updateCash() {
   const user = UserSession.getInstance()[1];

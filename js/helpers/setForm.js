@@ -1,5 +1,5 @@
 import UserSession from "../classes/UserSession.js";
-import { numberToPriceString } from "./index.js";
+import { numberToPriceString } from "../utils/index.js";
 import cleanAll from "./reset.js";
 
 const user = UserSession.getInstance()[1]

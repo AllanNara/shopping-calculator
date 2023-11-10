@@ -34,6 +34,9 @@ export function numberToPriceString(number) {
     }
 
     formattedNumber = formattedNumber.split("").reverse().join("");
+		if(formattedNumber[0] === "-" && formattedNumber[1] === ".") {
+			formattedNumber = formattedNumber.slice(0, 1) + formattedNumber.slice(2)
+		}
 
     return `$${formattedNumber}${decimalPart ? "," + decimalPart : ""}`;
 }

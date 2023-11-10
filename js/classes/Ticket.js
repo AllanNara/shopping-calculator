@@ -1,6 +1,6 @@
 import ProductInCart from "./ProductInCart.js";
 import Coupon from "./Coupon.js"
-import { idGenerator } from "../helpers/index.js";
+import { idGenerator } from "../utils/index.js";
 
 export default class Ticket {
 	constructor(data) {

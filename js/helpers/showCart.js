@@ -1,5 +1,6 @@
 import UserSession from "../classes/UserSession.js"
-import { numberToPriceString } from "./index.js";
+import { numberToPriceString } from "../utils/index.js";
+import { toastSuccess } from "../utils/toasty.js";
 import { updateItemsOrder } from "./itemsOrder.js";
 import updateCash from "./updateCash.js";
 
@@ -59,6 +60,7 @@ export function showProducts() {
             updateItemsOrder()
             updateCash()
             showProducts()
+            toastSuccess("¡Producto eliminado con exito!")
         })
         buttonDelete.innerHTML = `<i class="fa-regular fa-trash-can"></i>`
     

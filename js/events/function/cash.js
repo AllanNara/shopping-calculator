@@ -1,7 +1,9 @@
 import UserSession from "../../classes/UserSession.js";
-import { numberToPriceString } from "../../helpers/index.js";
+import { alertConfirmAction, alertError } from "../../utils/alerts.js";
+import { numberToPriceString } from "../../utils/index.js";
+import { toastInfo } from "../../utils/toasty.js";
 
-export function useCash(arg) {
+export async function useCash(arg) {
 	let checked = arg.constructor.name !== "Event" ? arg : arg.target.checked;
 	const user = UserSession.getInstance()[1];
 	const inputCash = document.getElementById("input-cash");
@@ -11,7 +13,7 @@ export function useCash(arg) {
 			document.getElementById("use-cash").checked = false
 		} 
 		if(user._initialCash) {
-			const next = confirm("¿Esta seguro que desea retirar su saldo inicial?")
+			const next = await alertConfirmAction("retirar el saldo inicial")
 			if(!next) {
 				document.getElementById("use-cash").checked = true;
 				return
@@ -25,25 +27,23 @@ export function useCash(arg) {
 		inputCash.value = 0;
 		currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
 	}
-	user._changeUseCashFlag(checked);
+	await user._changeUseCashFlag(checked);
+	checked ? toastInfo("Saldo habilitado") : toastInfo("Saldo removido");
 }
 
-export function insertCash({ key, target }) {
+export async function insertCash(event) {
 	const user = UserSession.getInstance()[1];
 	const currentCash = document.getElementById("current-cash");
-	if (key === "Enter") {
-		const cash = Number(target.value);
+	if (event.key === "Enter") {
+		event.preventDefault()
+		const cash = Number(event.target.value);
+		event.target.value = 0
 		if (isNaN(cash) || !cash) {
-			alert("Valor invalido");
+			await alertError("Valor invalido")
 		} else {
-			const confirmCash = confirm(
-				`Tu saldo inicial es de ${cash.toLocaleString()}, ¿Es correcto?`
-			);
-			if (confirmCash) {
-				const balance = user.addCash(cash);
-				if(!balance) useCash(false);
-				else currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
-			}
+			const balance = await user.addCash(cash);
+			if(!balance) useCash(false);
+			else currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
 		}
 	}
 }

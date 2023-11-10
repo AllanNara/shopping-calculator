@@ -5,8 +5,10 @@ import { disableDiscountFields, enableDiscountsFields } from "../../helpers/disc
 import { generateProduct } from "../../helpers/product.js";
 import storage from "../../helpers/storage.js";
 import { updateItemsOrder } from "../../helpers/itemsOrder.js";
-import { numberToPriceString } from "../../helpers/index.js";
+import { numberToPriceString } from "../../utils/index.js";
 import { showProducts } from "../../helpers/showCart.js";
+import updateCash from "../../helpers/updateCash.js";
+import { toastError, toastSuccess } from "../../utils/toasty.js";
 
 export function discountChanged({ target }) {
 	if (target.checked) {
@@ -21,7 +23,7 @@ export function discountChanged({ target }) {
 	}
 }
 
-export function addProduct(e) {
+export async function addProduct(e) {
 	e.preventDefault();
 	const user = UserSession.getInstance()[1];
 
@@ -30,17 +32,21 @@ export function addProduct(e) {
 	try {
 		removeError()
 		const item = generateProduct()
-		const balance = user.addProductToOrder(item);
+		const balance = await user.addProductToOrder(item);
 		document.getElementById("canceled-btn").removeAttribute("disabled");
 		document.getElementById("generate-ticket-btn").removeAttribute("disabled");
-		if (checkboxUseCash.checked && user._initialCash) currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
-		if(!balance) useCash(false);
+		if (checkboxUseCash.checked && user._initialCash) {
+			currentCash.innerText = `${numberToPriceString(user.availableCash)}`;
+		}
+		if(!balance && checkboxUseCash.checked) useCash(false)
 		updateItemsOrder();
 		showProducts();
 		resetForm();
+		updateCash();
+		toastSuccess("¡Producto añadido al carrito!")
 	} catch (error) {
-		console.log(error)
 		sendError(error)
+		toastError(error)
 	}
 }
 

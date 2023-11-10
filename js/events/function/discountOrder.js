@@ -1,15 +1,17 @@
 import UserSession from "../../classes/UserSession.js";
-import { numberToPriceString } from "../../helpers/index.js";
+import { numberToPriceString } from "../../utils/index.js";
 import { updateItemsOrder } from "../../helpers/itemsOrder.js";
 import updateCash from "../../helpers/updateCash.js";
 import { useCash } from "./cash.js";
+import { alertConfirmAction, alertSuccessResponse, inputNewDisc } from "../../utils/alerts.js";
 
 const user = UserSession.getInstance()[1];
 
-export function addGeneralDiscount() {
-  const discount = prompt("Ingrese descuento para el total de la compra")
-  if(!discount || isNaN(Number(discount)) || (discount > 100 || discount < 0) ) return alert("Valor ingresado invalido")
-
+export async function addGeneralDiscount() {
+  
+  const discount = await inputNewDisc("percent")
+  if(!discount) return;
+  
   const balance = user.updateDiscountToOrder(discount)
   if(!balance) useCash(false);
   else {
@@ -18,10 +20,11 @@ export function addGeneralDiscount() {
   }
   updateCash()
   updateItemsOrder()
+  await alertSuccessResponse(`¡Descuento del ${discount}% aplicado!`);
 }
 
-export function removeGeneralDiscount(event) {
-  if(!confirm("¿Desea eliminar este descuento?")) return
+export async function removeGeneralDiscount(event) {
+  if(!(await alertConfirmAction("eliminar descuento"))) return
   const balance = user.updateDiscountToOrder(0)
   if(!balance) useCash(false);
   document.getElementById("discount-general").innerText = 0;
@@ -30,9 +33,9 @@ export function removeGeneralDiscount(event) {
   updateItemsOrder()
 }
 
-export function addCoupon() {
-  const coupon = prompt("Ingrese el valor de su cupon de descuento")
-  if(!coupon || isNaN(Number(coupon))) return alert("Valor ingresado invalido");
+export async function addCoupon() {
+  const coupon = await inputNewDisc("coupon")
+  if(!coupon) return;
 
   const balance = user.updateCoupon(coupon)
   if(!balance) useCash(false);
@@ -43,10 +46,11 @@ export function addCoupon() {
   }
   updateCash()
   updateItemsOrder()
+  await alertSuccessResponse(`¡Cupon por $${coupon} aplicado!`)
 }
 
-export function removeCoupon(event) {
-  if(!confirm("¿Desea eliminar este descuento?")) return
+export async function removeCoupon(event) {
+  if(!(await alertConfirmAction("eliminar cupon"))) return
   const balance = user.updateCoupon(null)
   if(!balance) useCash(false);
   document.getElementById("exists-coupon").innerText = "Sin cupon"

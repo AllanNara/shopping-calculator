@@ -1,10 +1,11 @@
 import UserSession from "../../classes/UserSession.js";
 import storage from "../../helpers/storage.js";
+import { alertConfirmAction, inputGeneric } from "../../utils/alerts.js";
 
 const user = UserSession.getInstance()[1];
 
-export function resetSession() {
-	const reset = confirm("Estas seguro que desea resetear su usuario? \n La informacion, como tickets de compras e historial no se podrán recuperar")
+export async function resetSession() {
+	const reset = await alertConfirmAction("resetear el usuario", "La informacion, como tickets de compras e historial no se podrán recuperar")
 	if(reset) {
 		storage("save", "session")("saveUser", false);
 		window.location.reload()
@@ -19,10 +20,10 @@ export function saveSession() {
   else storage("delete", "local")("userData", user)
 }
 
-export function updateName(update) {
-	const newName = prompt("Ingrese su nombre")
+export async function updateName(update) {
+	const newName = await inputGeneric("Ingrese su nombre")
+	console.log({newName})
 	if(update && !newName) return
-	if(!newName || !/^(?=[a-zA-Z0-9._]{2,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/.test(newName)) return alert("Nombre invalido")
-	user.username = newName
+	user.username = newName ?? "usuario"
 	document.getElementById("username").innerText = user.username
 }

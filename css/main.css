@@ -415,3 +415,9 @@ hr {
 .deleteProduct:active {
 	background-color: var(--color-5);
 }
+
+
+.CustomCancel {
+   background-color: #DD6B55;
+   border-color: #DD6B55;
+}

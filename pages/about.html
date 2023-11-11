@@ -1,22 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<title>Tercera preentrega</title>
-		<link rel="stylesheet" href="../css/style.css" />
-		<link rel="icon" href="favicon.ico" type="image/x-icon" />
-		<script src="../js/dom.js" type="module"></script>
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="../css/main.css" />
+		<link rel="stylesheet" href="../css/about.css">
+		<link href=" https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui@5.0.15/material-ui.min.css " rel="stylesheet">
+		<link href="../node_modules/egalink-toasty.js/dist/toasty.min.css" rel="stylesheet">
 	</head>
 	<body>
-		<nav>
-			<ul>
-				<li><a href="../index.html"><h1>Controlador de compras</h1></a></li>
-				<li><a href="./history.html">Historial de tickets</a></li>
-				<li><a href="./last_canceled.html">Ultimo cancelado</a></li>
-				<li>Sobre la app</li>
-			</ul>
-		</nav>
+		<header>
+			<h1 class="title"><a href="../index.html">Controlador de compras</a></h1>
+			<a class="about" href="./about.html">Sobre la app</a>
+			<nav class="navbar">
+				<ul class="nav-list">
+					<li class="welcome-user"><h2>¡¡ Bienvenido <span id="username">...</span> <i id="edit-username" class="editName fa-solid fa-pen-to-square fa-2xs"></i> !!</h2></li>
+					<li class="history-orders"><a href="../index.html">Volver al inicio</a></li>
+					<li><button class="restarUser" id="reset-session">Resetear usuario</button></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<article>
+				<h2>Sobre la página <i>'Controlador de compras'</i>...</h2>
+				<p>Bienvenido al 'Controlador de compras', tu compañero de confianza para hacer que tus compras sean más sencillas y personalizadas. ¿Alguna vez has entrado a un supermercado y te has preguntado cuánto llevas gastado o si estás aprovechando al máximo los descuentos? ¡Yo también!</p>
+    
+				<p>Esta aplicación, aún en desarrollo, nace con la idea de ser tu asistente de compras personal. Imagina poder llevar un control detallado de cada producto que añades al carrito, aplicar descuentos, gestionar cupones y, ¡hasta establecer un presupuesto para evitar sorpresas en la caja! ¿No es genial?</p>
+		
+				<p>Aunque todavía se esta trabajando en agregar características como un historial de tickets y gráficas informativas, queremos que ya empieces a disfrutar de la experiencia. Explora, experimenta y siéntete libre de soltar tus sugerencias y comentarios. ¡Tu opinión cuenta!</p>
+		
+				<p>Agradezco tu visita y tu interés en 'Controlador de compras'. Si tienes alguna pregunta, sugerencia o simplemente quieres saludar, ¡no dudes en ponerte en contacto! Puedes encontrarme en <a href="https://www.linkedin.com/in/allannara/" target="_blank">LinkedIn</a> o escribirme a <a href="mailto:allannara@outlook.com">allannara@outlook.com</a>.</p>
+		
+				<p>¡Gracias por ser parte de este proyecto!</p>
+		
+				<span>Allan N.</span>
+			</article>
+		</main>
 
 		<footer></footer>
+		<script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.9.0/dist/sweetalert2.all.min.js "></script>
+		<script src="../node_modules/egalink-toasty.js/dist/toasty.min.js"></script>
+		<script src="https://kit.fontawesome.com/ad98102b65.js" crossorigin="anonymous"></script>
+		<script src="../js/initializeSession.js" type="module"></script>
 	</body>
 </html>

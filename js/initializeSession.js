@@ -1,3 +1,4 @@
+import "./events/userEvents.js"
 import storage from "./helpers/storage.js";
 import { updateName } from "./events/function/user.js";
 
@@ -26,4 +27,6 @@ export default async function initializeSession() {
     storage("save", "session")("client", true);
   }
 }
+
+initializeSession()
 

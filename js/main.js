@@ -1,11 +1,10 @@
-import initializeSession from "./initializeSession.js";
-import setUserForm from "./helpers/setForm.js";
-import "./events/index.js"
+import "./initializeSession.js";
 import "./events/userEvents.js"
+import "./events/index.js"
+import setUserForm from "./helpers/setForm.js";
 import { updateItemsOrder } from "./helpers/itemsOrder.js";
 import { showProducts } from "./helpers/showCart.js";
 
-initializeSession()
 setUserForm()
 updateItemsOrder()
 showProducts()
@@ -22,5 +21,3 @@ showProducts()
 //   window.location.reload()
 // })
 
-import "./utils/toasty.js"
-import "./utils/alerts.js"
